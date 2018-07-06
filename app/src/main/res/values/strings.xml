@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Acceptance</string>
+    <string name="home">HOME</string>
+    <string name="train">COUNT</string>
+    <string name="add">ADD</string>
+    <string name="me">ME</string>
+</resources>

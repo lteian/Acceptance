@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="LocomotiveModel">
+        <item>SS7D</item>
+        <item>SS7E</item>
+        <item>HXD3D</item>
+        <item>DF4B</item>
+        <item>DF4D</item>
+        <item>DF7</item>
+    </string-array>
+</resources>
