@@ -5,4 +5,7 @@
     <string name="train">汇总</string>
     <string name="add">录入</string>
     <string name="me">我</string>
+    <string name="submit">确定</string>
+    <string name="loco_number">车号</string>
+    <string name="loco_classification">修程</string>
 </resources>

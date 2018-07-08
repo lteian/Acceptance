@@ -4,4 +4,8 @@
     <string name="train">COUNT</string>
     <string name="add">ADD</string>
     <string name="me">ME</string>
+    <string name="submit">SUBMIT</string>
+    <string name="loco_number">NO.</string>
+    <string name="loco_classification">Classification of Locomotive Repair</string>
+    <string name="title_activity_add_hj">AddHjActivity</string>
 </resources>

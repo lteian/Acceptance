@@ -10,9 +10,7 @@
 
         app:title="@string/app_name"
         app:collapsedTitleGravity="center"
-        app:collapsedTitleTextAppearance="@style/MyCollapsedTitleStyle"
         app:expandedTitleGravity="right|bottom"
-        app:expandedTitleTextAppearance="@style/MyExpandedTitleStyle"
         app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <ImageView
