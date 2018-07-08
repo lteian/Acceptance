@@ -19,24 +19,24 @@
                 app:layout_constraintBottom_toTopOf="@+id/loco_check_card_table"
                 />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="更多"
                 android:padding="16dp"
-                android:background="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
 
                 android:id="@+id/loco_check_card_more"
                 />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="添加活件"
                 android:padding="16dp"
-                android:background="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/loco_check_card_more"
                 />

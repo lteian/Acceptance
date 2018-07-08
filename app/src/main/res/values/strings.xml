@@ -8,4 +8,5 @@
     <string name="loco_number">NO.</string>
     <string name="loco_classification">Classification of Locomotive Repair</string>
     <string name="title_activity_add_hj">AddHjActivity</string>
+    <string name="title_jc_information">Loco Information</string>
 </resources>

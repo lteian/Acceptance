@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class jcInformationFragment extends Fragment{
+public class jcListFragment extends Fragment{
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.jc_information,null);
+        View view=inflater.inflate(R.layout.jc_list,null);
         return view;
     }
 

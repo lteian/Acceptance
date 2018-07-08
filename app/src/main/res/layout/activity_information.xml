@@ -14,6 +14,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:title="机车信息"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/back"
+            app:logo="@drawable/ic_train"
             android:background="?attr/colorPrimary"/>
 
     </android.support.design.widget.AppBarLayout>

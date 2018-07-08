@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new jcInformationFragment());
+        adapter.addFragment(new jcListFragment());
         adapter.addFragment(new jcAddFragment());
         adapter.addFragment(new MeFragment());
         viewPager.setAdapter(adapter);

@@ -18,6 +18,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".jcInformationActivity"
+            android:label="@string/title_jc_information"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".AddHjActivity"
             android:label="@string/title_activity_add_hj"
             android:theme="@style/AppTheme" />
