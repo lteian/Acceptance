@@ -14,6 +14,8 @@ public class jcListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.jc_list,null);
         return view;
+
+
     }
 
 }

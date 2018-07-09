@@ -11,7 +11,8 @@ public class loco_acceptanceDao {
 
     public void add(loco_acceptance acceptance){
         SQLiteDatabase db = helper.getWritableDatabase();
-        db.execSQL("INSERT INTO loco_acceptance (type, \"desc\", pic, loco_no) VALUES (?, ?, ?, ?)"
-                ,new Object[]{acceptance.getType(),acceptance.getDesc(),acceptance.getPic(),acceptance.getLoco_no()});
+        db.execSQL("INSERT INTO loco_acceptance (loco_id,acceptance_type, acceptance_desc, acceptance_pic) VALUES (?, ?, ?, ?)"
+                ,new Object[]{acceptance.getLoco_id(),acceptance.getAcceptance_type(),acceptance.getAcceptance_desc(),acceptance.getAcceptance_pic()});
     }
+
 }

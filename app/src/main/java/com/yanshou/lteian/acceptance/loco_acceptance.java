@@ -2,10 +2,10 @@ package com.yanshou.lteian.acceptance;
 
 public class loco_acceptance {
     private int id;
-    private int loco_no;
-    private String type;
-    private String desc;
-    private String pic;
+    private int loco_id;
+    private String acceptance_type;
+    private String acceptance_desc;
+    private String acceptance_pic;
 
     public int getId() {
         return id;
@@ -15,35 +15,35 @@ public class loco_acceptance {
         this.id = id;
     }
 
-    public int getLoco_no() {
-        return loco_no;
+    public int getLoco_id() {
+        return loco_id;
     }
 
-    public void setLoco_no(int loco_no) {
-        this.loco_no = loco_no;
+    public void setLoco_id(int loco_id) {
+        this.loco_id = loco_id;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getAcceptance_type() {
+        return acceptance_type;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setAcceptance_type(String acceptance_type) {
+        this.acceptance_type = acceptance_type;
     }
 
-    public String getPic() {
-        return pic;
+    public String getAcceptance_desc() {
+        return acceptance_desc;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setAcceptance_desc(String acceptance_desc) {
+        this.acceptance_desc = acceptance_desc;
     }
 
-    public String getType() {
-        return type;
+    public String getAcceptance_pic() {
+        return acceptance_pic;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAcceptance_pic(String acceptance_pic) {
+        this.acceptance_pic = acceptance_pic;
     }
 }
