@@ -1,18 +1,14 @@
 package com.yanshou.lteian.acceptance;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-public class jcInformationActivity extends AppCompatActivity {
+public class LocoInformationActivity extends AppCompatActivity {
 
 
 
@@ -49,7 +45,7 @@ public class jcInformationActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(jcInformationActivity.this, AddHjActivity.class);
+                Intent intent = new Intent(LocoInformationActivity.this, AddHjActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putStringArray("post_loco",get_loco);
                 intent.putExtras(bundle);

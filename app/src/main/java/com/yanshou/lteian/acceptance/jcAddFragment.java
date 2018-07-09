@@ -11,10 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 
 public class jcAddFragment extends Fragment{
     private Button button;
@@ -31,7 +27,7 @@ public class jcAddFragment extends Fragment{
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), jcInformationActivity.class);
+                Intent intent = new Intent(getActivity(), LocoInformationActivity.class);
                 //        提取机车型号、车号、修程，保存至post_loco数组
 //                        1.提取机车型号
                 Spinner spinner = view.findViewById(R.id.spinner_LocomotiveModel);

@@ -1,6 +1,6 @@
 package com.yanshou.lteian.acceptance;
 
-public class Loco_loco {
+public class LocoLoco {
     private int id;
     private String loco_type;
     private String loco_no;
