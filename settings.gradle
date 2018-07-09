@@ -1,1 +1,1 @@
-include ':app', ':kxxxl', ':myapplication'
+include ':app', ':kxxxl', ':myapplication', ':imagepicker'
