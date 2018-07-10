@@ -22,15 +22,19 @@ public class LocoAcceptanceDao {
         return id;
     }
 
-    public List<LocoAcceptance> findAll(){
+    public List<LocoAcceptance> findAll(Long locoId){
+
+//        查找id等于该机车的活件
+
         List<LocoAcceptance> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
-        QueryResultIterable<LocoAcceptance> iter = cupboard().withDatabase(db).query(LocoAcceptance.class).query();
-        for (LocoAcceptance acceptance : iter){
-            list.add(acceptance);
+        if(locoId != null){
+            QueryResultIterable<LocoAcceptance> iter = cupboard().withDatabase(db).query(LocoAcceptance.class).withSelection("locoId = ?", String.valueOf(locoId)).query();
+            for (LocoAcceptance acceptance : iter){
+                list.add(acceptance);
+            }
+            iter.close();
         }
-        iter.close();
-
         return list;
     }
 

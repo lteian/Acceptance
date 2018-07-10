@@ -1,20 +1,20 @@
 package com.yanshou.lteian.acceptance;
 
 public class LocoAcceptance {
-    public long _id;
-    public long locoId;
+    public Long _id;
+    public Long locoId;
     public String acceptanceType;
     public String acceptanceDesc;
     public String acceptancePic;
 
     public LocoAcceptance(){
-        this.locoId = 0;
+        this.locoId = Long.valueOf(0);
         this.acceptanceType = "NoType";
         this.acceptanceDesc = "Nothing";
         this.acceptancePic = "NoPicture";
     }
 
-    public LocoAcceptance(int locoId, String acceptanceType, String acceptanceDesc, String acceptancePic){
+    public LocoAcceptance(Long locoId, String acceptanceType, String acceptanceDesc, String acceptancePic){
         this.locoId = locoId;
         this.acceptanceType = acceptanceType;
         this.acceptanceDesc = acceptanceDesc;
@@ -22,19 +22,19 @@ public class LocoAcceptance {
     }
 
 
-    public long get_id() {
+    public Long get_id() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    public void set_id(Long _id) {
         this._id = _id;
     }
 
-    public long getLocoId() {
+    public Long getLocoId() {
         return locoId;
     }
 
-    public void setLocoId(long locoId) {
+    public void setLocoId(Long locoId) {
         this.locoId = locoId;
     }
 

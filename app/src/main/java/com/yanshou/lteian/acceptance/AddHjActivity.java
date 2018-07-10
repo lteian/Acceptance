@@ -35,18 +35,8 @@ public class AddHjActivity extends AppCompatActivity {
         addHjSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                获取当前时间
-                long timeStamp = System.currentTimeMillis();
-//                保存机车信息，有个if，判断是否存在
-
-                LocoLoco loco = new LocoLoco();
-                LocoLocoDao locoDao = new LocoLocoDao(AddHjActivity.this);
-                loco.setLocoType(get_loco[0]);
-                loco.setLocoNumber(get_loco[1]);
-                loco.setLocoClassification(get_loco[2]);
-                loco.setLocoDate(timeStamp);
-                Long locoId = locoDao.add(loco);
-
+//               保存机车信息
+                Long locoId = locoSave(get_loco);
 //                保存活件信息
                 LocoAcceptance acceptance = new LocoAcceptance();
                 LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(AddHjActivity.this);
@@ -55,8 +45,27 @@ public class AddHjActivity extends AppCompatActivity {
 
                 Long acceptanceId = acceptanceDao.add(acceptance);
 
-                Toast.makeText(AddHjActivity.this,locoId.toString()+"和"+acceptanceId.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(AddHjActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
+
+                onBackPressed();
             }
         });
+    }
+//         保存机车信息
+    private Long locoSave(String[] get_loco) {
+        long timeStamp = System.currentTimeMillis();
+//                保存机车信息，有个if，判断机车是否存在
+        LocoLoco loco = new LocoLoco();
+        LocoLocoDao locoDao = new LocoLocoDao(AddHjActivity.this);
+
+        Long locoId = locoDao.findid(loco);
+        if(locoId == null){
+            loco.setLocoType(get_loco[0]);
+            loco.setLocoNumber(get_loco[1]);
+            loco.setLocoClassification(get_loco[2]);
+            loco.setLocoDate(timeStamp);
+            locoId = locoDao.add(loco);
+        }
+        return locoId;
     }
 }

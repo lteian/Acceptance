@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
+class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<LocoLoco> mDatas;
+    private List<LocoAcceptance> mDatas;
 
     private Context context;
 
-    public CardViewAdapter(List<LocoLoco> datas){
+    public JobListAdapter(List<LocoAcceptance> datas){
      mDatas = datas;
     }
 
@@ -28,10 +28,10 @@ class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        LocoLoco locoCategory = mDatas.get(position);
-        holder.locoNoTextView.setText(String.format("机车型号：%s %s", locoCategory.getLocoType(), locoCategory.getLocoNumber()));
-        holder.locoClassificationTextView.setText(String.format("修程：%s", locoCategory.getLocoClassification()));
-        holder.locoDateTextView.setText(String.format("交验时间：%s", locoCategory.getLocoDate()));
+        LocoAcceptance locoCategory = mDatas.get(position);
+        holder.locoNoTextView.setText(String.format("活件类型：%s %s", locoCategory.getAcceptanceType()));
+        holder.locoClassificationTextView.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
+        holder.locoDateTextView.setText(String.format("附件：%s", locoCategory.getAcceptancePic()));
     }
 
     @Override

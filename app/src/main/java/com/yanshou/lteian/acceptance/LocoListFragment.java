@@ -28,7 +28,7 @@ public class LocoListFragment extends Fragment{
 
             recyclerCategory = view.findViewById(R.id.loco_list_recycler);
 
-            CardViewAdapter mAdatper = new CardViewAdapter(list);
+            LocoListAdapter mAdatper = new LocoListAdapter(list);
 
             recyclerCategory.setAdapter(mAdatper);
 
