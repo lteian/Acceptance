@@ -22,7 +22,7 @@ public class LocoAcceptanceDao {
         return id;
     }
 
-    public void findAll(){
+    public List<LocoAcceptance> findAll(){
         List<LocoAcceptance> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
         QueryResultIterable<LocoAcceptance> iter = cupboard().withDatabase(db).query(LocoAcceptance.class).query();
@@ -30,6 +30,8 @@ public class LocoAcceptanceDao {
             list.add(acceptance);
         }
         iter.close();
+
+        return list;
     }
 
 }

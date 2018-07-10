@@ -1,31 +1,32 @@
 package com.yanshou.lteian.acceptance;
 
 public class LocoLoco {
-    public int _id;
+    public Long _id;
     public String locoType;
     public String locoNumber;
-    public String locoDate;
+    public Long locoDate;
     public String locoClassification;
 
     public LocoLoco(){
         this.locoType = "NoType";
         this.locoNumber = "NoNumber";
-        this.locoDate = "NoDate";
+        this.locoDate = Long.valueOf(0);
         this.locoClassification = "NoClassification";
     }
 
-  public LocoLoco(String locoType,String locoNumber,String locoDate,String locoClassification){
+  public LocoLoco(long id,String locoType,String locoNumber,long locoDate,String locoClassification){
+        this._id = id;
         this.locoType = locoType;
         this.locoNumber = locoNumber;
         this.locoDate = locoDate;
         this.locoClassification = locoClassification;
   }
 
-    public int get_id() {
+    public Long get_id() {
         return _id;
     }
 
-    public void set_id(int _id) {
+    public void set_id(Long _id) {
         this._id = _id;
     }
 
@@ -37,11 +38,11 @@ public class LocoLoco {
         this.locoNumber = locoNumber;
     }
 
-    public String getLocoDate() {
+    public Long getLocoDate() {
         return locoDate;
     }
 
-    public void setLocoDate(String locoDate) {
+    public void setLocoDate(Long locoDate) {
         this.locoDate = locoDate;
     }
 

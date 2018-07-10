@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp">
+    android:layout_marginTop="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,7 +16,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="机车型号"
-                android:paddingEnd="16dp"
                 />
 
             <TextView
@@ -24,7 +23,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="修程"
-                android:paddingEnd="16dp"
                 android:textColor="@color/colorPrimary"
                 />
 
@@ -33,7 +31,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="交验日期"
-                android:paddingEnd="16dp"
                 android:textColor="@color/colorPrimary"
                 />
 

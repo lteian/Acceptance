@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class AddHjActivity extends AppCompatActivity {
 
 
@@ -33,14 +35,27 @@ public class AddHjActivity extends AppCompatActivity {
         addHjSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                获取当前时间
+                long timeStamp = System.currentTimeMillis();
+//                保存机车信息，有个if，判断是否存在
+
+                LocoLoco loco = new LocoLoco();
+                LocoLocoDao locoDao = new LocoLocoDao(AddHjActivity.this);
+                loco.setLocoType(get_loco[0]);
+                loco.setLocoNumber(get_loco[1]);
+                loco.setLocoClassification(get_loco[2]);
+                loco.setLocoDate(timeStamp);
+                Long locoId = locoDao.add(loco);
+
+//                保存活件信息
                 LocoAcceptance acceptance = new LocoAcceptance();
-                LocoAcceptanceDao dao = new LocoAcceptanceDao(AddHjActivity.this);
+                LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(AddHjActivity.this);
                 acceptance.setAcceptanceType(spinner.getSelectedItem().toString().trim());
                 acceptance.setAcceptanceDesc(editText.getText().toString().trim());
 
-                Long id = dao.add(acceptance);
+                Long acceptanceId = acceptanceDao.add(acceptance);
 
-                Toast.makeText(AddHjActivity.this,id.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(AddHjActivity.this,locoId.toString()+"和"+acceptanceId.toString(),Toast.LENGTH_LONG).show();
             }
         });
     }
