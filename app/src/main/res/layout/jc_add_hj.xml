@@ -21,17 +21,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             >
 
         </Spinner>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:lines="6"
+            android:paddingTop="16dp"
             android:id="@+id/hj_description"
+            android:hint="请描述活件详情"
             />
-
+            </android.support.design.widget.TextInputLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,6 +46,7 @@
             android:background="@color/colorPrimary"
             android:text="@string/submit"
             android:textColor="@color/white"
+            android:paddingTop="16dp"
             />
         </LinearLayout>
 

@@ -2,7 +2,7 @@ package com.yanshou.lteian.acceptance;
 
 public class loco_acceptance {
     private int id;
-    private int loco_no;
+    private int loco_id;
     private String type;
     private String desc;
     private String pic;
@@ -15,12 +15,12 @@ public class loco_acceptance {
         this.id = id;
     }
 
-    public int getLoco_no() {
-        return loco_no;
+    public int getLoco_id() {
+        return loco_id;
     }
 
-    public void setLoco_no(int loco_no) {
-        this.loco_no = loco_no;
+    public void setLoco_id(int loco_no) {
+        this.loco_id = loco_no;
     }
 
     public String getDesc() {

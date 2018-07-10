@@ -11,10 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 
 public class jcAddFragment extends Fragment{
     private Button button;

@@ -12,8 +12,8 @@ public class NewSqliteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE loco_acceptance (id INTEGER PRIMARY KEY AUTOINCREMENT,loco_no INTEGER REFERENCES loco_loco (id), type TEXT NOT NULL, \"desc\" TEXT NOT NULL, pic TEXT);");
-        db.execSQL("CREATE TABLE loco_loco (id INTEGER PRIMARY KEY, types TEXT NOT NULL, \"No.\" TEXT NOT NULL, classification TEXT NOT NULL, date DATE NOT NULL);");
+        db.execSQL("CREATE TABLE loco_acceptance (id INTEGER PRIMARY KEY AUTOINCREMENT,loco_id INTEGER REFERENCES loco_loco (id), type TEXT NOT NULL, \"desc\" TEXT NOT NULL, pic TEXT);");
+        db.execSQL("CREATE TABLE loco_loco (id INTEGER PRIMARY KEY, loco_type TEXT NOT NULL, loco_no TEXT NOT NULL, classification TEXT NOT NULL, loco_date TEXT NOT NULL);");
     }
 
     @Override

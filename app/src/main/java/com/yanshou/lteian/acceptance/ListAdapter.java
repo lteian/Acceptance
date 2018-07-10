@@ -1,7 +1,6 @@
 package com.yanshou.lteian.acceptance;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,21 +34,30 @@ class ListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder vh;
         Loco_loco loco = list.get(position);
 
         if(convertView == null){
+            vh = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.card_loco,null);
+            vh.editTextClassification = convertView.findViewById(R.id.loco_card_classification);
+            vh.editTextDate = convertView.findViewById(R.id.loco_card_date);
+            vh.editTextLocoType = convertView.findViewById(R.id.loco_card_type);
+            convertView.setTag(vh);
+        }else{
+            vh=(ViewHolder) convertView.getTag();
         }
 
-        EditText editTextLocoType = convertView.findViewById(R.id.loco_card_type);
-        EditText editTextClassification = convertView.findViewById(R.id.loco_card_classification);
-        EditText editTextData = convertView.findViewById(R.id.loco_card_date);
-
-        editTextLocoType.setText("机车型号："+loco.getLoco_type()+" "+loco.getLoco_no());
-        editTextClassification.setText("修程："+ loco.getClassification());
-        editTextData.setText("交验日期："+ loco.getLoco_date());
+        vh.editTextLocoType.setText(String.format("机车型号：%s %s", loco.getLoco_type(), loco.getLoco_no()));
+        vh.editTextDate.setText(String.format("交验日期：%s", loco.getLoco_date()));
+        vh.editTextClassification.setText(String.format("修程：%s", loco.getClassification()));
 
         return convertView;
     }
 
+    private class ViewHolder{
+        EditText editTextLocoType;
+        EditText editTextClassification;
+        EditText editTextDate;
+    }
 }
