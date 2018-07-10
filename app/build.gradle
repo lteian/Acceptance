@@ -28,4 +28,5 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.alibaba.android:ddsharesdk:1.1.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'nl.qbusict:cupboard:2.2.0'
 }

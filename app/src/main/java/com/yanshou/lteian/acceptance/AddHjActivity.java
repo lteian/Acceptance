@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddHjActivity extends AppCompatActivity {
 
@@ -25,17 +26,21 @@ public class AddHjActivity extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
         get_loco = bundle.getStringArray("post_loco");
 //        2.Button 写入数据
-        Button button = findViewById(R.id.add_loco_submit);
+        Button addHjSubmit = findViewById(R.id.add_loco_submit);
         final Spinner spinner = findViewById(R.id.spinner_acceptance_type);
         final EditText editText = findViewById(R.id.hj_description);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        addHjSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String acceptance_type = spinner.getSelectedItem().toString().trim();
-                String hj_description = editText.getText().toString().trim();
+                LocoAcceptance acceptance = new LocoAcceptance();
+                LocoAcceptanceDao dao = new LocoAcceptanceDao(AddHjActivity.this);
+                acceptance.setAcceptanceType(spinner.getSelectedItem().toString().trim());
+                acceptance.setAcceptanceDesc(editText.getText().toString().trim());
 
+                Long id = dao.add(acceptance);
 
+                Toast.makeText(AddHjActivity.this,id.toString(),Toast.LENGTH_LONG).show();
             }
         });
     }

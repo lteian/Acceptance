@@ -29,9 +29,9 @@ class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         LocoLoco locoCategory = mDatas.get(position);
-        holder.locoNoTextView.setText(locoCategory.getLoco_no());
-        holder.locoClassificationTextView.setText(locoCategory.getLoco_classification());
-        holder.locoDateTextView.setText(locoCategory.getLoco_date());
+        holder.locoNoTextView.setText(String.format("机车型号：%s %s", locoCategory.getLocoType(), locoCategory.getLocoNumber()));
+        holder.locoClassificationTextView.setText(String.format("修程：%s", locoCategory.getLocoClassification()));
+        holder.locoDateTextView.setText(String.format("交验时间：%s", locoCategory.getLocoDate()));
     }
 
     @Override

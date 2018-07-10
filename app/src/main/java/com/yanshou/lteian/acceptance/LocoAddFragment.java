@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class jcAddFragment extends Fragment{
+public class LocoAddFragment extends Fragment{
     private Button button;
     private String [] post_loco = new String[3];
 

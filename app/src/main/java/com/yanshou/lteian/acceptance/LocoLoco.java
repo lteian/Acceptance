@@ -1,50 +1,63 @@
 package com.yanshou.lteian.acceptance;
 
 public class LocoLoco {
-    private int id;
-    private String loco_type;
-    private String loco_no;
-    private String loco_date;
-    private String loco_classification;
+    public int _id;
+    public String locoType;
+    public String locoNumber;
+    public String locoDate;
+    public String locoClassification;
 
-    public int getId() {
-        return id;
+    public LocoLoco(){
+        this.locoType = "NoType";
+        this.locoNumber = "NoNumber";
+        this.locoDate = "NoDate";
+        this.locoClassification = "NoClassification";
     }
 
-    public void setId(int id) {
-        this.id = id;
+  public LocoLoco(String locoType,String locoNumber,String locoDate,String locoClassification){
+        this.locoType = locoType;
+        this.locoNumber = locoNumber;
+        this.locoDate = locoDate;
+        this.locoClassification = locoClassification;
+  }
+
+    public int get_id() {
+        return _id;
     }
 
-    public String getLoco_no() {
-        return loco_no;
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
-    public void setLoco_no(String loco_no) {
-        this.loco_no = loco_no;
+    public String getLocoNumber() {
+        return locoNumber;
     }
 
-    public String getLoco_classification() {
-        return loco_classification;
+    public void setLocoNumber(String locoNumber) {
+        this.locoNumber = locoNumber;
     }
 
-    public void setLoco_classification(String loco_classification) {
-        this.loco_classification = loco_classification;
+    public String getLocoDate() {
+        return locoDate;
     }
 
-    public String getLoco_type() {
-        return loco_type;
+    public void setLocoDate(String locoDate) {
+        this.locoDate = locoDate;
     }
 
-    public void setLoco_type(String loco_type) {
-        this.loco_type = loco_type;
+    public String getLocoClassification() {
+        return locoClassification;
     }
 
-    public String getLoco_date() {
-        return loco_date;
+    public void setLocoClassification(String locoClassification) {
+        this.locoClassification = locoClassification;
     }
 
-    public void setLoco_date(String loco_date) {
-        this.loco_date = loco_date;
+    public String getLocoType() {
+        return locoType;
     }
 
+    public void setLocoType(String locoType) {
+        this.locoType = locoType;
+    }
 }
