@@ -42,7 +42,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/hj_submit"
+            android:id="@+id/add_loco_submit"
             android:background="@color/colorPrimary"
             android:text="@string/submit"
             android:textColor="@color/white"

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -27,46 +28,44 @@ public class AddHjActivity extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
         get_loco = bundle.getStringArray("post_loco");
 //        2.Button 写入数据
-        Button button = findViewById(R.id.hj_submit);
+        Button addHjSubmit = findViewById(R.id.add_loco_submit);
         final Spinner spinner = findViewById(R.id.spinner_acceptance_type);
         final EditText editText = findViewById(R.id.hj_description);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        addHjSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String acceptance_type = spinner.getSelectedItem().toString().trim();
-                String hj_description = editText.getText().toString().trim();
+//               保存机车信息
+                Long locoId = locoSave(get_loco);
+//                保存活件信息
+                LocoAcceptance acceptance = new LocoAcceptance();
+                LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(AddHjActivity.this);
+                acceptance.setAcceptanceType(spinner.getSelectedItem().toString().trim());
+                acceptance.setAcceptanceDesc(editText.getText().toString().trim());
 
+                Long acceptanceId = acceptanceDao.add(acceptance);
 
-//                3.存储数据
+                Toast.makeText(AddHjActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
 
-//                3.1存储机车信息，这里有个判断，先不写
-
-                String loco_date =String.valueOf(new Date());
-                Loco_loco locoLoco =new Loco_loco();
-
-                locoLoco.setLoco_type(get_loco[0]);
-                locoLoco.setLoco_no(get_loco[1]);
-                locoLoco.setClassification(get_loco[2]);
-                locoLoco.setLoco_date(loco_date);
-
-                Loco_locoDao locoDao = new Loco_locoDao(AddHjActivity.this);
-//                想一想还是写一下判断吧
-                int i =locoDao.findId(get_loco[1], loco_date);
-                if(i==0){
-                    locoDao.add(locoLoco);
-                }
-
-//                3.2存储活件信息
-                loco_acceptance acceptance= new loco_acceptance();
-                acceptance.setType(acceptance_type);
-                acceptance.setDesc(hj_description);
-//                acceptance.setPic();
-                acceptance.setLoco_id(i);
-//            返回上级Activity
                 onBackPressed();
-
             }
         });
+    }
+//         保存机车信息
+    private Long locoSave(String[] get_loco) {
+        long timeStamp = System.currentTimeMillis();
+//                保存机车信息，有个if，判断机车是否存在
+        LocoLoco loco = new LocoLoco();
+        LocoLocoDao locoDao = new LocoLocoDao(AddHjActivity.this);
+
+        Long locoId = locoDao.findid(loco);
+        if(locoId == null){
+            loco.setLocoType(get_loco[0]);
+            loco.setLocoNumber(get_loco[1]);
+            loco.setLocoClassification(get_loco[2]);
+            loco.setLocoDate(timeStamp);
+            locoId = locoDao.add(loco);
+        }
+        return locoId;
     }
 }
