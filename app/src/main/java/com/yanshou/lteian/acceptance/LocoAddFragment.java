@@ -11,15 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class LocoAddFragment extends Fragment{
     private Button button;
-    private String [] post_loco = new String[3];
+    LocoLoco loco = new LocoLoco();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View view=inflater.inflate(R.layout.jc_add,null);
+        final View view=inflater.inflate(R.layout.fragment_loco_add,null);
 
 //        按钮传参
         button = view.findViewById(R.id.add_loco_submit);
@@ -27,26 +28,46 @@ public class LocoAddFragment extends Fragment{
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LocoInformationActivity.class);
                 //        提取机车型号、车号、修程，保存至post_loco数组
 //                        1.提取机车型号
+
+
                 Spinner spinner = view.findViewById(R.id.spinner_LocomotiveModel);
-                post_loco[0] = (String) spinner.getSelectedItem();
+                loco.setLocoType(String.valueOf(spinner.getSelectedItem()));
                 //        2.提取车号
                 EditText locoNo = view.findViewById(R.id.loco_no);
-                post_loco[1] = String.valueOf(locoNo.getText());
+                loco.setLocoNumber(String.valueOf(locoNo.getText()));
 //                          3.提取修程
                 EditText locoCF =view.findViewById(R.id.loco_classification);
-                post_loco[2] = String.valueOf(locoCF.getText());
-//                4.传参
-                Bundle bundle = new Bundle();
-                bundle.putStringArray("post_loco",post_loco);
-                intent.putExtras(bundle);
+                loco.setLocoClassification(String.valueOf(locoCF.getText()));
+//                4.保存机车数据
+                //               保存机车信息
+                Long locoId = locoSave(loco);
+//                5.传参
+                Intent intent = new Intent(getActivity(), LocoInformationActivity.class);
+                intent.putExtra("locoId",locoId);
                 startActivity(intent);
-//                Toast.makeText(getActivity(),"车型："+post_loco[0]+"，车号："+ post_loco[1] +",修程："+ post_loco[2],Toast.LENGTH_SHORT).show();
+
+
             }
         });
         return view;
+    }
+
+    //         保存机车信息
+    private Long locoSave(LocoLoco loco) {
+//                保存机车信息，有个if，判断机车是否存在
+        LocoLocoDao locoDao = new LocoLocoDao(getActivity());
+        loco.setLocoDate(System.currentTimeMillis());
+        Long locoId = locoDao.findid(loco);
+        if(locoId == null){
+            locoId = locoDao.add(loco);
+            Toast.makeText(getActivity(),"机车信息添加成功，编号："+locoId,Toast.LENGTH_SHORT).show();
+        }else {
+
+            Toast.makeText(getActivity(), "找到以下机车信息，编号：" + locoId, Toast.LENGTH_SHORT).show();
+        }
+        return locoId;
     }
 
 }

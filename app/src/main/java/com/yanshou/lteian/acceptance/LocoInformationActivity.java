@@ -9,36 +9,46 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocoInformationActivity extends AppCompatActivity {
-    private RecyclerView recyclerCategory;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_information);
+        setContentView(R.layout.activity_loco_information);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        1.接收参数
-        final String[] get_loco;
-        Bundle bundle = this.getIntent().getExtras();
-        get_loco = bundle.getStringArray("post_loco");
+
+        final Intent intent = getIntent();
+        final Long locoId = intent.getLongExtra("locoId",0);
+        LocoLocoDao locoDao = new LocoLocoDao(LocoInformationActivity.this);
+        LocoLoco loco = new LocoLoco();
+        if (locoId != 0) {
+            loco= locoDao.find(locoId) ;
+        }
+
         TextView textView = findViewById(R.id.get_loco);
-//        Toast.makeText(AddHjActivity.this,get_loco[0]+","+get_loco[1]+","+get_loco[2],Toast.LENGTH_SHORT).show();
-        textView.setText("机车型号："+get_loco[0]+" "+get_loco[1]+"，修程："+get_loco[2]);
+        Toast.makeText(LocoInformationActivity.this,"接收参数："+locoId,Toast.LENGTH_SHORT).show();
+        if (loco != null) {
+            textView.setText(String.format("机车型号：%s %s，修程：%s", loco.getLocoType(), loco.getLocoNumber(), loco.getLocoClassification()));
+        }
 
 //        2.动态的添CardView
 
 //        查找该页机车活件
 
-        recyclerCategory = findViewById(R.id.job_list_recycler);
+        RecyclerView recyclerCategory = findViewById(R.id.job_list_recycler);
 
-        JobListAdapter mAdatper = new JobListAdapter(findHj(get_loco));
+        JobListAdapter mAdatper = null;
+        if (loco != null) {
+            mAdatper = new JobListAdapter(findHj(loco.get_id()));
+        }
 
         recyclerCategory.setAdapter(mAdatper);
 
@@ -60,9 +70,7 @@ public class LocoInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LocoInformationActivity.this, AddHjActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putStringArray("post_loco",get_loco);
-                intent.putExtras(bundle);
+                intent.putExtra("locoId",locoId);
                 startActivity(intent);
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
@@ -71,19 +79,12 @@ public class LocoInformationActivity extends AppCompatActivity {
 
 //
     }
-
-    private List<LocoAcceptance> findHj(String[] get_loco) {
-        LocoAcceptanceDao locoDao = new LocoAcceptanceDao(LocoInformationActivity.this);
+//      获取活件列表
+    private List<LocoAcceptance> findHj(Long locoId) {
+        LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(LocoInformationActivity.this);
         List<LocoAcceptance> acceptanceList = new ArrayList<LocoAcceptance>();
-        LocoLocoDao dao = new LocoLocoDao(LocoInformationActivity.this);
-        LocoLoco loco = new LocoLoco();
 
-        loco.setLocoType(get_loco[0]);
-        loco.setLocoNumber(get_loco[1]);
-        loco.setLocoClassification(get_loco[2]);
-
-        Long locoId = dao.findid(loco);
-        acceptanceList = locoDao.findAll(locoId);
+        acceptanceList = acceptanceDao.findAll(locoId);
 
         return acceptanceList;
     }

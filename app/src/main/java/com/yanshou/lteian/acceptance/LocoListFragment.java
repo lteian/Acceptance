@@ -1,5 +1,6 @@
 package com.yanshou.lteian.acceptance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,7 @@ public class LocoListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.loco_list,null);
+        View view=inflater.inflate(R.layout.fragment_loco_list,null);
 
 //        1.读取数据
             LocoLocoDao dao = new LocoLocoDao(getActivity());
@@ -31,6 +32,20 @@ public class LocoListFragment extends Fragment{
             LocoListAdapter mAdatper = new LocoListAdapter(list);
 
             recyclerCategory.setAdapter(mAdatper);
+
+            mAdatper.setOnItemClickListener(new LocoListAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position, Long locoId) {
+                    Intent intent = new Intent(getActivity(),LocoInformationActivity.class);
+                    intent.putExtra("locoId",locoId);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onItemLongClick(View view, int position) {
+
+                }
+            });
 
 //        recyclerCategory.addItemDecoration(new DividerItemDecoration());
 

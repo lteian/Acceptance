@@ -23,13 +23,13 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         mInflater = LayoutInflater.from(viewGroup.getContext());
-        return  new ViewHolder(mInflater.inflate(R.layout.loco_cardview,viewGroup,false));
+        return  new ViewHolder(mInflater.inflate(R.layout.cardview_loco_list,viewGroup,false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         LocoAcceptance locoCategory = mDatas.get(position);
-        holder.locoNoTextView.setText(String.format("活件类型：%s %s", locoCategory.getAcceptanceType()));
+        holder.locoNoTextView.setText(String.format("活件类型：%s", locoCategory.getAcceptanceType()));
         holder.locoClassificationTextView.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
         holder.locoDateTextView.setText(String.format("附件：%s", locoCategory.getAcceptancePic()));
     }
