@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/Acceptance.iml" filepath="$PROJECT_DIR$/Acceptance.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/imagepicker/imagepicker.iml" filepath="$PROJECT_DIR$/imagepicker/imagepicker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kxxxl/kxxxl.iml" filepath="$PROJECT_DIR$/kxxxl/kxxxl.iml" />
-      <module fileurl="file://$PROJECT_DIR$/myapplication/myapplication.iml" filepath="$PROJECT_DIR$/myapplication/myapplication.iml" />
     </modules>
   </component>
 </project>
