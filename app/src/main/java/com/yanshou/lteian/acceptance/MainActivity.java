@@ -8,6 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -18,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SpeechUtility.createUtility(MainActivity.this, SpeechConstant.APPID +"=5b4611c4");
 
        viewPager = findViewById(R.id.viewpager);
        bottomNavigationView = findViewById(R.id.bottomnavigation);

@@ -15,13 +15,14 @@ import android.widget.Toast;
 
 public class LocoAddFragment extends Fragment{
     private Button button;
+    private EditText locoCF;
     LocoLoco loco = new LocoLoco();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_loco_add,null);
-
+        locoCF =view.findViewById(R.id.loco_classification);
 //        按钮传参
         button = view.findViewById(R.id.add_loco_submit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +39,7 @@ public class LocoAddFragment extends Fragment{
                 EditText locoNo = view.findViewById(R.id.loco_no);
                 loco.setLocoNumber(String.valueOf(locoNo.getText()));
 //                          3.提取修程
-                EditText locoCF =view.findViewById(R.id.loco_classification);
+
                 loco.setLocoClassification(String.valueOf(locoCF.getText()));
 //                4.保存机车数据
                 //               保存机车信息
@@ -51,8 +52,18 @@ public class LocoAddFragment extends Fragment{
 
             }
         });
+
+//        textView监听，启动自定义键盘
+        locoCF.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                new KeyboardUtils(getContext());
+            }
+        });
         return view;
     }
+
+
 
     //         保存机车信息
     private Long locoSave(LocoLoco loco) {
