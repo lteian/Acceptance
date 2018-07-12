@@ -21,7 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-public class AddHjActivity extends AppCompatActivity {
+public class JobAddActivity extends AppCompatActivity {
 
     private final String APPID ="5b4611c4";
     private SpeechRecognizer mIat;
@@ -41,9 +41,7 @@ public class AddHjActivity extends AppCompatActivity {
 //          加入讯飞语音
 // 将“12345678”替换成您申请的APPID，申请地址：http://www.xfyun.cn
 // 请勿在“=”与appid之间添加任何空字符或者转义符
-
-        SpeechUtility.createUtility(AddHjActivity.this, SpeechConstant.APPID +"=5b4611c4");
-
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5b4611c4");
 //        Button 点击 ，语音听写
         mRListener = new RecognizerDialogListener() {
             @Override
@@ -62,7 +60,7 @@ public class AddHjActivity extends AppCompatActivity {
 
             }
         };
-        mIatDialog = new RecognizerDialog(AddHjActivity.this, null);
+        mIatDialog = new RecognizerDialog(this, null);
         mIatDialog.setListener(mRListener);
 
         Button iflytekButton = findViewById(R.id.iflytek_listen);
@@ -89,14 +87,14 @@ public class AddHjActivity extends AppCompatActivity {
 
 //                保存活件信息
                 LocoAcceptance acceptance = new LocoAcceptance();
-                LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(AddHjActivity.this);
+                LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(JobAddActivity.this);
                 acceptance.setAcceptanceType(spinner.getSelectedItem().toString().trim());
                 acceptance.setAcceptanceDesc(editText.getText().toString().trim());
                 acceptance.setLocoId(locoId);
 
                 Long acceptanceId = acceptanceDao.add(acceptance);
 
-                Toast.makeText(AddHjActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
+                Toast.makeText(JobAddActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
 
                 onBackPressed();
             }
@@ -127,7 +125,7 @@ public class AddHjActivity extends AppCompatActivity {
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         mIatDialog.setParameter(SpeechConstant.ASR_PTT, "1");
-;
+        ;
     }
 
     public static String parseIatResult(String json) {

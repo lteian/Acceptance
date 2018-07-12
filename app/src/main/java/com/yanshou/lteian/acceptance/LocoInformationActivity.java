@@ -69,7 +69,7 @@ public class LocoInformationActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LocoInformationActivity.this, AddHjActivity.class);
+                Intent intent = new Intent(LocoInformationActivity.this, JobAddActivity.class);
                 intent.putExtra("locoId",locoId);
                 startActivity(intent);
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
