@@ -8,4 +8,5 @@
     <string name="submit">确定</string>
     <string name="loco_number">车号</string>
     <string name="loco_classification">修程</string>
+    <string name="loco_del">删除</string>
 </resources>

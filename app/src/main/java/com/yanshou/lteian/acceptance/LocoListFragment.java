@@ -25,7 +25,12 @@ public class LocoListFragment extends Fragment{
 
 //        1.读取数据
             LocoLocoDao dao = new LocoLocoDao(getActivity());
-            list = dao.findAll();
+            try{
+                list = dao.findAll();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
 
             recyclerCategory = view.findViewById(R.id.loco_list_recycler);
 

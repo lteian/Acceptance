@@ -67,4 +67,10 @@ public class LocoLocoDao {
         return list;
 
     }
+
+//    删除
+    public void del(Long id){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        cupboard().withDatabase(db).delete(LocoLoco.class,id+"L");
+    }
 }

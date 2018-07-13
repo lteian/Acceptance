@@ -18,7 +18,9 @@
             app:titleTextColor="@color/white"
             app:navigationIcon="@drawable/back"
             app:logo="@drawable/ic_train"
-            android:background="?attr/colorPrimary"/>
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     </android.support.design.widget.AppBarLayout>
 
