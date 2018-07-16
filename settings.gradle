@@ -1,1 +1,1 @@
-include ':app', ':kxxxl', ':MyExplorer', ':imagepicker'
+include ':app', ':customkeyboard'

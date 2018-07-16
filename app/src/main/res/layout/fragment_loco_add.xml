@@ -61,18 +61,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.yanshou.lteian.acceptance.ClassificationKeyboardEditText
-                    android:id="@+id/loco_classification"
+                <com.zyl.customkeyboardview.CustomKeyboardEditText
+                    android:id="@+id/et_identity_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/loco_classification"
-                    android:inputType="text"
-                    android:digits="123456789CFX"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@null"
+                    android:digits="0123456789xX"
                     android:lines="1"
-                    android:maxLength="3"
-                    app:xml="@xml/classification_add_keyboard"
-                    android:textSize="15sp"
-                    />
+                    android:maxLength="18"
+                    android:textColor="#000000"
+                    app:xml="@xml/idcard_keyboard"
+                    android:textSize="15sp" />
 
             </android.support.design.widget.TextInputLayout>
 

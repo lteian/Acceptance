@@ -8,10 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/MyExplorer" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/imagepicker" />
-            <option value="$PROJECT_DIR$/kxxxl" />
+            <option value="$PROJECT_DIR$/customkeyboard" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

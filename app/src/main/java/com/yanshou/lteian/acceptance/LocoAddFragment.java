@@ -13,30 +13,30 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.zyl.customkeyboardview.CustomKeyboardEditText;
+
 public class LocoAddFragment extends Fragment{
     private Button button;
-    private EditText locoCF;
+    private CustomKeyboardEditText locoCF;
     LocoLoco loco = new LocoLoco();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View view=inflater.inflate(R.layout.fragment_loco_add,null);
-        locoCF =view.findViewById(R.id.loco_classification);
-//        按钮传参
+        View view=inflater.inflate(R.layout.fragment_loco_add,null);
+        locoCF =view.findViewById(R.id.et_identity_card);
+        //  按钮传参
         button = view.findViewById(R.id.add_loco_submit);
         button.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
                 //        提取机车型号、车号、修程，保存至post_loco数组
-//                        1.提取机车型号
-
-
-                Spinner spinner = view.findViewById(R.id.spinner_LocomotiveModel);
+                //1.提取机车型号
+                Spinner spinner = v.findViewById(R.id.spinner_LocomotiveModel);
                 loco.setLocoType(String.valueOf(spinner.getSelectedItem()));
                 //        2.提取车号
-                EditText locoNo = view.findViewById(R.id.loco_no);
+                EditText locoNo = v.findViewById(R.id.loco_no);
                 loco.setLocoNumber(String.valueOf(locoNo.getText()));
 //                          3.提取修程
 
@@ -57,8 +57,11 @@ public class LocoAddFragment extends Fragment{
     }
 
 
-
-    //         保存机车信息
+    /**
+     * 保存机车信息
+     * @param loco
+     * @return Long 机车id
+     */
     private Long locoSave(LocoLoco loco) {
 //                保存机车信息，有个if，判断机车是否存在
         LocoLocoDao locoDao = new LocoLocoDao(getActivity());
