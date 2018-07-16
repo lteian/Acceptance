@@ -61,14 +61,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <com.yanshou.lteian.acceptance.ClassificationKeyboardEditText
                     android:id="@+id/loco_classification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/loco_classification"
                     android:inputType="text"
                     android:digits="123456789CFX"
+                    android:lines="1"
                     android:maxLength="3"
+                    app:xml="@xml/classification_add_keyboard"
+                    android:textSize="15sp"
                     />
 
             </android.support.design.widget.TextInputLayout>

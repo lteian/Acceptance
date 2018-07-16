@@ -31,7 +31,7 @@ public class JobAddActivity extends AppCompatActivity {
     private RecognizerDialogListener mRListener;
 
     private EditText editText;
-    private String result;
+    private String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,9 @@ public class JobAddActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.hj_description);
 
-//          加入讯飞语音
+        /**
+         * 加入讯飞语音
+         */
 // 将“12345678”替换成您申请的APPID，申请地址：http://www.xfyun.cn
 // 请勿在“=”与appid之间添加任何空字符或者转义符
         SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5b4611c4");

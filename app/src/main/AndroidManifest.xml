@@ -24,7 +24,7 @@
 
         <activity
             android:name=".JobAddActivity"
-            android:label="@string/title_activity_add_hj"
+            android:label="@string/title_activity_add_job"
             android:theme="@style/AppTheme" />
         <meta-data android:name="IFLYTEK_APPKEY" android:value="5b4611c4"/>
     </application>

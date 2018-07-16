@@ -93,7 +93,10 @@ public class LocoInformationActivity extends AppCompatActivity {
                             builder.create();
                         }
                     });
-                                    }
+                }
+                if(item.getItemId() == R.id.menu_loco_Modify){
+
+                }
                 return false;
             }
         });

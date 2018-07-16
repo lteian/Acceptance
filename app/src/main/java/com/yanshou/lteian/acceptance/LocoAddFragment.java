@@ -53,13 +53,6 @@ public class LocoAddFragment extends Fragment{
             }
         });
 
-//        textView监听，启动自定义键盘
-        locoCF.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                new KeyboardUtils(getContext());
-            }
-        });
         return view;
     }
 
