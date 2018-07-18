@@ -2,8 +2,10 @@
     package="com.yanshou.lteian.classificationkeyboardview">
 
 
-        <application android:allowBackup="true" android:label="@string/app_name"
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
         android:supportsRtl="true">
 
-        </application>
+    </application>
 </manifest>

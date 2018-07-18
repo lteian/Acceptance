@@ -2,7 +2,10 @@ package com.yanshou.lteian.acceptance;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -22,10 +25,15 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import java.util.List;
 
 public class JobAddActivity extends AppCompatActivity {
 
@@ -33,7 +41,9 @@ public class JobAddActivity extends AppCompatActivity {
     private SpeechRecognizer mIat;
     private RecognizerDialog mIatDialog;
     private RecognizerDialogListener mRListener;
-    private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
+    private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1, MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
+    private final int REQUEST_CODE_CHOOSE=0;
+    private ImageButton job_image;
 
     private EditText editText;
     private String result = "";
@@ -117,9 +127,42 @@ public class JobAddActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        /**
+         * 图片选择器
+         */
+        job_image = findViewById(R.id.job_image);
+        job_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //获取权限
+                int permissionCheck = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+                    Matisse.from(JobAddActivity.this)
+                            .choose(MimeType.ofAll())
+                            .countable(true)
+                            .maxSelectable(1)//由于这里我只需要一张照片，所以最多选择设置为1
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .thumbnailScale(0.85f)
+                            .imageEngine(new GlideEngine())
+                            .forResult(REQUEST_CODE_CHOOSE);
+
+                }else{
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+
+                    }else{
+                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
+                    }
+                }
+            }
+        });
+
     }
 
-
+    /***
+     *
+     * @param filename
+     */
     private void setIatParam(String filename) {
         // 清空参数
         mIatDialog.setParameter(SpeechConstant.PARAMS, null);
@@ -176,6 +219,40 @@ public class JobAddActivity extends AppCompatActivity {
                 }
                 return;
             }
+            case MY_PERMISSIONS_READ_EXTERNAL_STORAGE:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                }else{
+                    Toast.makeText(JobAddActivity.this,"未获取数据读取权限，请开启数据读取使用此功能", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
+
+    /**
+     * 重写Massie方法
+     */
+    //这里方法是选择图片后返回的Uri数组
+    //返回的Uri数组
+    List<Uri> mSelected;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            mSelected = Matisse.obtainResult(data);
+            //用setImageURI将Uri数组第一个Uri显示在ImageView上
+            job_image.setImageURI(mSelected.get(0));
+            //将Uri转换为String保存在SharedPreferences中
+            SharedPreferences.Editor editor=getSharedPreferences("data",MODE_PRIVATE).edit();
+            editor.putString("imageUri",mSelected.get(0).toString());
+            editor.apply();
+
+            Toast.makeText(this, "Set up successfully", Toast.LENGTH_SHORT).show();
+
+        }else if(requestCode!=RESULT_OK&&requestCode!=RESULT_CANCELED){
+            //设置失败提示
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
 }

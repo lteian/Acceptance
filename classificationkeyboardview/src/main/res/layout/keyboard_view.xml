@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.inputmethodservice.KeyboardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.inputmethodservice.KeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="216dp"
     android:focusable="true"
@@ -12,5 +11,4 @@
     android:background="#336699"
     android:elevation="4dp"
     android:shadowRadius="0.0"
-    android:shadowColor="#000000"
-    />
+    android:shadowColor="#000000" />

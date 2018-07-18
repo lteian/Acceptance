@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/Acceptance.iml" filepath="$PROJECT_DIR$/Acceptance.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/classificationkeyboardview/classificationkeyboardview.iml" filepath="$PROJECT_DIR$/classificationkeyboardview/classificationkeyboardview.iml" />
-      <module fileurl="file://$PROJECT_DIR$/customkeyboard/customkeyboard.iml" filepath="$PROJECT_DIR$/customkeyboard/customkeyboard.iml" />
     </modules>
   </component>
 </project>

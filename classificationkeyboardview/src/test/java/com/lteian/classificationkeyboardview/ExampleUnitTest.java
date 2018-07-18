@@ -1,4 +1,4 @@
-package com.yanshou.lteian.imagepicker;
+package com.lteian.classificationkeyboardview;
 
 import org.junit.Test;
 
