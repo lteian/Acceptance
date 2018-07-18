@@ -32,5 +32,6 @@ dependencies {
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation project(':customkeyboard')
+    implementation project(':classificationkeyboardview')
+
 }

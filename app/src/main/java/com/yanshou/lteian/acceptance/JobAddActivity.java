@@ -1,9 +1,13 @@
 package com.yanshou.lteian.acceptance;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +33,7 @@ public class JobAddActivity extends AppCompatActivity {
     private SpeechRecognizer mIat;
     private RecognizerDialog mIatDialog;
     private RecognizerDialogListener mRListener;
+    private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
 
     private EditText editText;
     private String result = "";
@@ -45,7 +50,7 @@ public class JobAddActivity extends AppCompatActivity {
          */
 // 将“12345678”替换成您申请的APPID，申请地址：http://www.xfyun.cn
 // 请勿在“=”与appid之间添加任何空字符或者转义符
-        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5b4611c4");
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"="+APPID);
 //        Button 点击 ，语音听写
         mRListener = new RecognizerDialogListener() {
             @Override
@@ -72,8 +77,17 @@ public class JobAddActivity extends AppCompatActivity {
         iflytekButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIatParam("zph");
-                mIatDialog.show();
+                int permissionCheck = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.RECORD_AUDIO);
+                if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+                    setIatParam("zph");
+                    mIatDialog.show();
+                }else{
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.RECORD_AUDIO)){
+
+                    }else{
+                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.RECORD_AUDIO},MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
+                    }
+                }
             }
         });
 
@@ -149,5 +163,19 @@ public class JobAddActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return ret.toString();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_RECORD_AUDIO:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                }else{
+                    Toast.makeText(JobAddActivity.this,"未获取录音权限，请开启录音权限使用此功能", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 }

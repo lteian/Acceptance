@@ -13,30 +13,29 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.zyl.customkeyboardview.CustomKeyboardEditText;
-
 public class LocoAddFragment extends Fragment{
     private Button button;
-    private CustomKeyboardEditText locoCF;
+    private EditText locoCF;
     LocoLoco loco = new LocoLoco();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_loco_add,null);
-        locoCF =view.findViewById(R.id.et_identity_card);
+        final View view=inflater.inflate(R.layout.fragment_loco_add,null);
+        locoCF =view.findViewById(R.id.loco_classification_editText);
         //  按钮传参
         button = view.findViewById(R.id.add_loco_submit);
         button.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
+
                 //        提取机车型号、车号、修程，保存至post_loco数组
                 //1.提取机车型号
-                Spinner spinner = v.findViewById(R.id.spinner_LocomotiveModel);
+                Spinner spinner = view.findViewById(R.id.spinner_LocomotiveModel);
                 loco.setLocoType(String.valueOf(spinner.getSelectedItem()));
                 //        2.提取车号
-                EditText locoNo = v.findViewById(R.id.loco_no);
+                EditText locoNo = view.findViewById(R.id.loco_no);
                 loco.setLocoNumber(String.valueOf(locoNo.getText()));
 //                          3.提取修程
 
