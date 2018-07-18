@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/home/sunny/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_voice_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/sunny/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_hide_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,7 +44,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="iflytek_voice" />
+                                      <entry key="outputName" value="keyboard_hide" />
                                       <entry key="theme" value="CUSTOM" />
                                     </map>
                                   </option>
