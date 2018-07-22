@@ -28,6 +28,18 @@
             android:label="@string/title_activity_add_job"
             android:theme="@style/AppTheme" />
         <meta-data android:name="IFLYTEK_APPKEY" android:value="5b4611c4"/>
+
+        <!--在这里定义共享信息-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.yanshou.lteian.acceptance.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
     </application>
 
     <!--连接网络权限，用于执行云端语音能力 -->

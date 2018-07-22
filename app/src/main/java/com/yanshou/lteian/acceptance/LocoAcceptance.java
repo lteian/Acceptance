@@ -1,20 +1,22 @@
 package com.yanshou.lteian.acceptance;
 
+import java.sql.Blob;
+
 public class LocoAcceptance {
     public Long _id;
     public Long locoId;
     public String acceptanceType;
     public String acceptanceDesc;
-    public String acceptancePic;
+    public Blob acceptancePic;
 
     public LocoAcceptance(){
         this.locoId = Long.valueOf(0);
         this.acceptanceType = "NoType";
         this.acceptanceDesc = "Nothing";
-        this.acceptancePic = "NoPicture";
+        this.acceptancePic = null;
     }
 
-    public LocoAcceptance(Long locoId, String acceptanceType, String acceptanceDesc, String acceptancePic){
+    public LocoAcceptance(Long locoId, String acceptanceType, String acceptanceDesc, Blob acceptancePic){
         this.locoId = locoId;
         this.acceptanceType = acceptanceType;
         this.acceptanceDesc = acceptanceDesc;
@@ -54,11 +56,11 @@ public class LocoAcceptance {
         this.acceptanceDesc = acceptanceDesc;
     }
 
-    public String getAcceptancePic() {
+    public Blob getAcceptancePic() {
         return acceptancePic;
     }
 
-    public void setAcceptancePic(String acceptancePic) {
+    public void setAcceptancePic(Blob acceptancePic) {
         this.acceptancePic = acceptancePic;
     }
 }

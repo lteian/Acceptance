@@ -65,9 +65,12 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:src="@drawable/ic_add"
+                android:scaleType="centerInside"
+                android:background="@color/white"
                 android:id="@+id/job_image"
                 app:layout_constraintTop_toBottomOf="@+id/job_text_input_layout"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
             </android.support.constraint.ConstraintLayout>
             <Button
             android:layout_width="match_parent"

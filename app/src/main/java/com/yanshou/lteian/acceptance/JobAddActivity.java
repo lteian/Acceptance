@@ -1,15 +1,19 @@
 package com.yanshou.lteian.acceptance;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +32,15 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.util.List;
 
 public class JobAddActivity extends AppCompatActivity {
@@ -41,7 +49,7 @@ public class JobAddActivity extends AppCompatActivity {
     private SpeechRecognizer mIat;
     private RecognizerDialog mIatDialog;
     private RecognizerDialogListener mRListener;
-    private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1, MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
+    private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1, MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2, MY_PERMISSIONS_CAMERA = 3;
     private final int REQUEST_CODE_CHOOSE=0;
     private ImageButton job_image;
 
@@ -120,6 +128,8 @@ public class JobAddActivity extends AppCompatActivity {
                 acceptance.setAcceptanceDesc(editText.getText().toString().trim());
                 acceptance.setLocoId(locoId);
 
+
+
                 Long acceptanceId = acceptanceDao.add(acceptance);
 
                 Toast.makeText(JobAddActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
@@ -136,22 +146,34 @@ public class JobAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //获取权限
-                int permissionCheck = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
-                if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+                int permissionCheckReadExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                int permissionCheckCamera = ContextCompat.checkSelfPermission(JobAddActivity.this,Manifest.permission.CAMERA);
+                int permissionCheckWriteExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(permissionCheckReadExternalStorage == PackageManager.PERMISSION_GRANTED &&
+                        permissionCheckCamera == PackageManager.PERMISSION_GRANTED &&
+                        permissionCheckWriteExternalStorage == PackageManager.PERMISSION_GRANTED){
                     Matisse.from(JobAddActivity.this)
-                            .choose(MimeType.ofAll())
-                            .countable(true)
-                            .maxSelectable(1)//由于这里我只需要一张照片，所以最多选择设置为1
+                            .choose(MimeType.ofAll()) // 选择 mime 的类型
+                            .countable(true) // 显示选择的数量
+                            .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
+                            .captureStrategy(new CaptureStrategy(true,"com.yanshou.lteian.acceptance.fileprovider")) // 拍照的图片路径
+                            .theme(R.style.Matisse_Dracula) // 黑色背景
+                            .maxSelectable(1) // 图片选择的最多数量
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                            .thumbnailScale(0.85f)
-                            .imageEngine(new GlideEngine())
-                            .forResult(REQUEST_CODE_CHOOSE);
+                            .thumbnailScale(0.85f) // 缩略图的比例
+                            .imageEngine(new GlideEngine()) // 使用的图片加载引擎
+                            .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码，返回图片时使用
 
                 }else{
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)){
-
-                    }else{
+                    if(!ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE )){
                         ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
+                    }
+                    if(!ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
+                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
+                    }
+
+                    if(!ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                        ActivityCompat.requestPermissions(JobAddActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                     }
                 }
             }
@@ -227,11 +249,19 @@ public class JobAddActivity extends AppCompatActivity {
                 }
                 return;
             }
+            case MY_PERMISSIONS_CAMERA:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                }else{
+                    Toast.makeText(JobAddActivity.this,"未获取相机权限，请开启相机权限使用此功能", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
         }
     }
 
     /**
-     * 重写Massie方法
+     * 重写Matisse方法
      */
     //这里方法是选择图片后返回的Uri数组
     //返回的Uri数组
