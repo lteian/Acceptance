@@ -7,7 +7,7 @@ public class LocoAcceptance {
     public Long locoId;
     public String acceptanceType;
     public String acceptanceDesc;
-    public Blob acceptancePic;
+    public String acceptancePic;
 
     public LocoAcceptance(){
         this.locoId = Long.valueOf(0);
@@ -16,7 +16,7 @@ public class LocoAcceptance {
         this.acceptancePic = null;
     }
 
-    public LocoAcceptance(Long locoId, String acceptanceType, String acceptanceDesc, Blob acceptancePic){
+    public LocoAcceptance(Long locoId, String acceptanceType, String acceptanceDesc, String acceptancePic){
         this.locoId = locoId;
         this.acceptanceType = acceptanceType;
         this.acceptanceDesc = acceptanceDesc;
@@ -56,11 +56,11 @@ public class LocoAcceptance {
         this.acceptanceDesc = acceptanceDesc;
     }
 
-    public Blob getAcceptancePic() {
+    public String getAcceptancePic() {
         return acceptancePic;
     }
 
-    public void setAcceptancePic(Blob acceptancePic) {
+    public void setAcceptancePic(String acceptancePic) {
         this.acceptancePic = acceptancePic;
     }
 }

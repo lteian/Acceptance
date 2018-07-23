@@ -1,19 +1,15 @@
 package com.yanshou.lteian.acceptance;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -38,9 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.sql.Blob;
 import java.util.List;
 
 public class JobAddActivity extends AppCompatActivity {
@@ -51,10 +44,11 @@ public class JobAddActivity extends AppCompatActivity {
     private RecognizerDialogListener mRListener;
     private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1, MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2, MY_PERMISSIONS_CAMERA = 3;
     private final int REQUEST_CODE_CHOOSE=0;
-    private ImageButton job_image;
+    private ImageButton JobImage;
 
     private EditText editText;
     private String result = "";
+    private String ImageUri="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +56,7 @@ public class JobAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_job_add);
 
         editText = findViewById(R.id.hj_description);
+        JobImage = findViewById(R.id.job_image);
 
         /**
          * 加入讯飞语音
@@ -127,9 +122,10 @@ public class JobAddActivity extends AppCompatActivity {
                 acceptance.setAcceptanceType(spinner.getSelectedItem().toString().trim());
                 acceptance.setAcceptanceDesc(editText.getText().toString().trim());
                 acceptance.setLocoId(locoId);
-
-
-
+                // 如果pic有图片，保存图片
+                if(ImageUri != ""){
+                    acceptance.setAcceptancePic(ImageUri);
+                }
                 Long acceptanceId = acceptanceDao.add(acceptance);
 
                 Toast.makeText(JobAddActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
@@ -141,8 +137,7 @@ public class JobAddActivity extends AppCompatActivity {
         /**
          * 图片选择器
          */
-        job_image = findViewById(R.id.job_image);
-        job_image.setOnClickListener(new View.OnClickListener() {
+        JobImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //获取权限
@@ -154,7 +149,7 @@ public class JobAddActivity extends AppCompatActivity {
                         permissionCheckWriteExternalStorage == PackageManager.PERMISSION_GRANTED){
                     Matisse.from(JobAddActivity.this)
                             .choose(MimeType.ofAll()) // 选择 mime 的类型
-                            .countable(true) // 显示选择的数量
+                            .countable(false) // 显示选择的数量
                             .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
                             .captureStrategy(new CaptureStrategy(true,"com.yanshou.lteian.acceptance.fileprovider")) // 拍照的图片路径
                             .theme(R.style.Matisse_Dracula) // 黑色背景
@@ -165,15 +160,15 @@ public class JobAddActivity extends AppCompatActivity {
                             .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码，返回图片时使用
 
                 }else{
-                    if(!ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE )){
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                    }else{
                         ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                     }
-                    if(!ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
-                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
-                    }
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
 
-                    if(!ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                        ActivityCompat.requestPermissions(JobAddActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
+                    }else{
+                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
                     }
                 }
             }
@@ -272,12 +267,9 @@ public class JobAddActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data);
             //用setImageURI将Uri数组第一个Uri显示在ImageView上
-            job_image.setImageURI(mSelected.get(0));
+            JobImage.setImageURI(mSelected.get(0));
             //将Uri转换为String保存在SharedPreferences中
-            SharedPreferences.Editor editor=getSharedPreferences("data",MODE_PRIVATE).edit();
-            editor.putString("imageUri",mSelected.get(0).toString());
-            editor.apply();
-
+            ImageUri = String.valueOf(mSelected.get(0));
             Toast.makeText(this, "Set up successfully", Toast.LENGTH_SHORT).show();
 
         }else if(requestCode!=RESULT_OK&&requestCode!=RESULT_CANCELED){

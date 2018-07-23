@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -39,10 +40,10 @@ public class LocoInformationActivity extends AppCompatActivity {
         RecyclerView recyclerCategory = findViewById(R.id.job_list_recycler);
         JobListAdapter mAdatper = null;
         if (loco != null) {
-            mAdatper = new JobListAdapter(findHj(loco.get_id()));
+            mAdatper = new JobListAdapter(findJob(loco.get_id()));
         }
         recyclerCategory.setAdapter(mAdatper);
-//        recyclerCategory.addItemDecoration(new DividerItemDecoration());
+        recyclerCategory.addItemDecoration(new DividerItemDecoration(this, 1));
         recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
 
 //        4.悬浮按钮添加活件动作
@@ -103,7 +104,7 @@ public class LocoInformationActivity extends AppCompatActivity {
     }
 
     //      获取活件列表
-    private List<LocoAcceptance> findHj(Long locoId) {
+    private List<LocoAcceptance> findJob(Long locoId) {
         LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(LocoInformationActivity.this);
         List<LocoAcceptance> acceptanceList = new ArrayList<LocoAcceptance>();
 
