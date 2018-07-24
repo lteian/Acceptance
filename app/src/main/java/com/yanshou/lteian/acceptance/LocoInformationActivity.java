@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,12 +89,12 @@ public class LocoInformationActivity extends AppCompatActivity {
                             LocoLocoDao dao = new LocoLocoDao(LocoInformationActivity.this);
                             dao.del(locoId);
                         }
-                    }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             builder.create();
                         }
-                    });
+                    }).show();
                 }
                 if(item.getItemId() == R.id.menu_loco_Modify){
 
@@ -108,7 +109,7 @@ public class LocoInformationActivity extends AppCompatActivity {
         LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(LocoInformationActivity.this);
         List<LocoAcceptance> acceptanceList = new ArrayList<LocoAcceptance>();
 
-        acceptanceList = acceptanceDao.findAll(locoId);
+        acceptanceList = acceptanceDao.findJobList(locoId);
 
         return acceptanceList;
     }

@@ -1,11 +1,9 @@
 package com.yanshou.lteian.acceptance;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import nl.qbusict.cupboard.QueryResultIterable;
@@ -69,8 +67,9 @@ public class LocoLocoDao {
     }
 
 //    删除
-    public void del(Long id){
+    public void del(Long id) {
         SQLiteDatabase db = helper.getReadableDatabase();
-        cupboard().withDatabase(db).delete(LocoLoco.class,id+"L");
+        cupboard().withDatabase(db).delete(LocoLoco.class, id);
     }
+
 }

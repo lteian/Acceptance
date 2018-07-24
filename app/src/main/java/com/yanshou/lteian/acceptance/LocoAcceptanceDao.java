@@ -22,7 +22,7 @@ public class LocoAcceptanceDao {
         return id;
     }
 
-    public List<LocoAcceptance> findAll(Long locoId){
+    public List<LocoAcceptance> findJobList(Long locoId){
 
 //        查找id等于该机车的活件
 

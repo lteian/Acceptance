@@ -1,24 +1,24 @@
 package com.yanshou.lteian.acceptance;
 
+import java.util.Calendar;
+
 public class LocoLoco {
     public Long _id;
     public String locoType;
     public String locoNumber;
-    public Long locoDate;
+    public Long locoDate = Calendar.getInstance().getTimeInMillis();
     public String locoClassification;
 
     public LocoLoco(){
         this.locoType = "NoType";
         this.locoNumber = "NoNumber";
-        this.locoDate = Long.valueOf(0);
         this.locoClassification = "NoClassification";
     }
 
-  public LocoLoco(long id,String locoType,String locoNumber,long locoDate,String locoClassification){
+  public LocoLoco(long id,String locoType,String locoNumber,String locoClassification){
         this._id = id;
         this.locoType = locoType;
         this.locoNumber = locoNumber;
-        this.locoDate = locoDate;
         this.locoClassification = locoClassification;
   }
 
