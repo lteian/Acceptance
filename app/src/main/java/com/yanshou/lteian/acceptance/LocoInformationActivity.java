@@ -41,7 +41,7 @@ public class LocoInformationActivity extends AppCompatActivity {
         RecyclerView recyclerCategory = findViewById(R.id.job_list_recycler);
         JobListAdapter mAdatper = null;
         if (loco != null) {
-            mAdatper = new JobListAdapter(findJob(loco.get_id()));
+            mAdatper = new JobListAdapter(this,findJob(loco.get_id()));
         }
         recyclerCategory.setAdapter(mAdatper);
         recyclerCategory.addItemDecoration(new DividerItemDecoration(this, 1));

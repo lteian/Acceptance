@@ -145,8 +145,7 @@ public class JobAddActivity extends AppCompatActivity {
                 int permissionCheckCamera = ContextCompat.checkSelfPermission(JobAddActivity.this,Manifest.permission.CAMERA);
                 int permissionCheckWriteExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if(permissionCheckReadExternalStorage == PackageManager.PERMISSION_GRANTED &&
-                        permissionCheckCamera == PackageManager.PERMISSION_GRANTED &&
-                        permissionCheckWriteExternalStorage == PackageManager.PERMISSION_GRANTED){
+                        permissionCheckCamera == PackageManager.PERMISSION_GRANTED){
                     Matisse.from(JobAddActivity.this)
                             .choose(MimeType.ofAll()) // 选择 mime 的类型
                             .countable(false) // 显示选择的数量

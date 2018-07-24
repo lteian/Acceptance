@@ -1,7 +1,5 @@
 package com.yanshou.lteian.acceptance;
 
-import java.sql.Blob;
-
 public class LocoAcceptance {
     public Long _id;
     public Long locoId;
@@ -13,7 +11,7 @@ public class LocoAcceptance {
         this.locoId = Long.valueOf(0);
         this.acceptanceType = "NoType";
         this.acceptanceDesc = "Nothing";
-        this.acceptancePic = null;
+        this.acceptancePic = "NoPicture";
     }
 
     public LocoAcceptance(Long locoId, String acceptanceType, String acceptanceDesc, String acceptancePic){
