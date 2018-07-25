@@ -70,7 +70,7 @@ public class LocoInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                onBackPressed();
+                finish();
             }
         });
 
@@ -88,6 +88,7 @@ public class LocoInformationActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             LocoLocoDao dao = new LocoLocoDao(LocoInformationActivity.this);
                             dao.del(locoId);
+                            finish();
                         }
                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override

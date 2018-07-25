@@ -24,43 +24,53 @@ public class LocoListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_loco_list,null);
 
-//        1.读取数据
-            LocoLocoDao dao = new LocoLocoDao(getActivity());
-            try{
-                list = dao.findAll();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-
-            recyclerCategory = view.findViewById(R.id.loco_list_recycler);
-
-            LocoListAdapter mAdatper = new LocoListAdapter(list);
-
-            recyclerCategory.setAdapter(mAdatper);
-
-            mAdatper.setOnItemClickListener(new LocoListAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position, Long locoId) {
-                    Intent intent = new Intent(getActivity(),LocoInformationActivity.class);
-                    intent.putExtra("locoId",locoId);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onItemLongClick(View view, int position) {
-
-                }
-            });
-
-//        recyclerCategory.addItemDecoration(new DividerItemDecoration());
-
-            recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-
+        getSellList(view);
 
         return view;
 
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getSellList(getView());
+    }
+
+
+    public void getSellList(View view){
+        //        1.读取数据
+        LocoLocoDao dao = new LocoLocoDao(getActivity());
+        try{
+            list = dao.findAll();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        recyclerCategory = view.findViewById(R.id.loco_list_recycler);
+
+        LocoListAdapter mAdatper = new LocoListAdapter(list);
+
+        recyclerCategory.setAdapter(mAdatper);
+
+        mAdatper.setOnItemClickListener(new LocoListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, Long locoId) {
+                Intent intent = new Intent(getActivity(),LocoInformationActivity.class);
+                intent.putExtra("locoId",locoId);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        });
+
+//        recyclerCategory.addItemDecoration(new DividerItemDecoration());
+
+        recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+    }
 }

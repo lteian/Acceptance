@@ -130,7 +130,7 @@ public class JobAddActivity extends AppCompatActivity {
 
                 Toast.makeText(JobAddActivity.this,"活件已添加，活件编号"+acceptanceId,Toast.LENGTH_LONG).show();
 
-                onBackPressed();
+                finish();
             }
         });
 

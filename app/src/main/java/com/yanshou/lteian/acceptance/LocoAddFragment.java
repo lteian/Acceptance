@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,7 @@ public class LocoAddFragment extends Fragment{
         if(locoId == null){
             locoId = locoDao.add(loco);
             Toast.makeText(getActivity(),"机车信息添加成功，编号："+locoId,Toast.LENGTH_SHORT).show();
+
         }else {
 
             Toast.makeText(getActivity(), "找到以下机车信息，编号：" + locoId, Toast.LENGTH_SHORT).show();

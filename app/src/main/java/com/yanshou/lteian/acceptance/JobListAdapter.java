@@ -1,5 +1,6 @@
 package com.yanshou.lteian.acceptance;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -42,16 +43,28 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         LocoAcceptance locoCategory = mDatas.get(position);
         holder.jobTitle.setText(String.format("活件类型：%s", locoCategory.getAcceptanceType()));
         holder.jobDiscript.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
-        String pic = locoCategory.getAcceptancePic();
+        final String pic = locoCategory.getAcceptancePic();
         if(pic.contains("content://")){
             Bitmap bm = getimage(getRealFilePath(mcontext, Uri.parse(pic)));
             holder.jobPic.setImageBitmap(bm);
-//            Toast.makeText(mcontext,pic,Toast.LENGTH_SHORT).show();
+            // Toast.makeText(mcontext,pic,Toast.LENGTH_SHORT).show();
 
             holder.jobPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    LayoutInflater inflater = LayoutInflater.from(mcontext);
+                    View imgEntryView = inflater.inflate(R.layout.dialog_photo_entry, null); // 加载自定义的布局文件
+                    final AlertDialog dialog = new AlertDialog.Builder(mcontext).create();
+                    ImageView img = (ImageView)imgEntryView.findViewById(R.id.large_image);
+                    img.setImageURI(Uri.parse(pic));
+                    dialog.setView(imgEntryView); // 自定义dialog
+                    dialog.show();
+                    // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
+                    imgEntryView.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View paramView) {
+                            dialog.cancel();
+                        }
+                    });
                 }
             });
         }
