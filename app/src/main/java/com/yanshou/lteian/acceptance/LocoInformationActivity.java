@@ -35,18 +35,8 @@ public class LocoInformationActivity extends AppCompatActivity {
 
 //        设置Toolbar;
         initToolbar();
-
-//        2.动态的添CardView
-//        查找该页机车活件
-        RecyclerView recyclerCategory = findViewById(R.id.job_list_recycler);
-        JobListAdapter mAdatper = null;
-        if (loco != null) {
-            mAdatper = new JobListAdapter(this,findJob(loco.get_id()));
-        }
-        recyclerCategory.setAdapter(mAdatper);
-        recyclerCategory.addItemDecoration(new DividerItemDecoration(this, 1));
-        recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-
+        //设置参数
+        setJobCardList();
 //        4.悬浮按钮添加活件动作
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         final Long _id = locoId;
@@ -134,5 +124,25 @@ public class LocoInformationActivity extends AppCompatActivity {
             locoIm= "";
         }
         return locoIm;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setJobCardList();
+    }
+
+    public void setJobCardList(){
+//        2.动态的添CardView
+//        查找该页机车活件
+        RecyclerView recyclerCategory = findViewById(R.id.job_list_recycler);
+        JobListAdapter mAdatper = null;
+        if (loco != null) {
+            mAdatper = new JobListAdapter(this,findJob(loco.get_id()));
+        }
+        recyclerCategory.setAdapter(mAdatper);
+        recyclerCategory.addItemDecoration(new DividerItemDecoration(this, 1));
+        recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+
     }
 }

@@ -44,7 +44,7 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         holder.jobTitle.setText(String.format("活件类型：%s", locoCategory.getAcceptanceType()));
         holder.jobDiscript.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
         final String pic = locoCategory.getAcceptancePic();
-        if(pic.contains("content://")){
+        if(pic.contains("content")){
             Bitmap bm = getimage(getRealFilePath(mcontext, Uri.parse(pic)));
             holder.jobPic.setImageBitmap(bm);
             // Toast.makeText(mcontext,pic,Toast.LENGTH_SHORT).show();
