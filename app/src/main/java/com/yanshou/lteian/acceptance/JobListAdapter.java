@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,10 +42,19 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         LocoAcceptance locoCategory = mDatas.get(position);
         holder.jobTitle.setText(String.format("活件类型：%s", locoCategory.getAcceptanceType()));
         holder.jobDiscript.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
-        Bitmap bm = getimage(getRealFilePath(mcontext, Uri.parse(locoCategory.getAcceptancePic())));
+        String pic = locoCategory.getAcceptancePic();
+        if(pic.contains("content://")){
+            Bitmap bm = getimage(getRealFilePath(mcontext, Uri.parse(pic)));
+            holder.jobPic.setImageBitmap(bm);
+//            Toast.makeText(mcontext,pic,Toast.LENGTH_SHORT).show();
 
-        holder.jobPic.setImageBitmap(bm);
-        holder.jobPic.setImageURI(Uri.parse(locoCategory.getAcceptancePic()));
+            holder.jobPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
     }
 
     @Override
