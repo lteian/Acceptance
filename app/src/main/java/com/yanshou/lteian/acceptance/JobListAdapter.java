@@ -3,11 +3,16 @@ package com.yanshou.lteian.acceptance;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Path;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,9 @@ import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
@@ -32,6 +40,21 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         mDatas = datas;
     }
 
+    /**
+     * 点击事件
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, Long locoId);
+        void onItemLongClick(View view, int position);
+
+    }
+
+    private JobListAdapter.OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(JobListAdapter.OnItemClickListener mOnItemClickListener){
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         mInflater = LayoutInflater.from(viewGroup.getContext());
@@ -39,15 +62,15 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        LocoAcceptance locoCategory = mDatas.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final LocoAcceptance locoCategory = mDatas.get(position);
         holder.jobTitle.setText(String.format("活件类型：%s", locoCategory.getAcceptanceType()));
         holder.jobDiscript.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
         final String pic = locoCategory.getAcceptancePic();
         if(pic.contains("content")){
             Bitmap bm = getimage(getRealFilePath(mcontext, Uri.parse(pic)));
             holder.jobPic.setImageBitmap(bm);
-            // Toast.makeText(mcontext,pic,Toast.LENGTH_SHORT).show();
+//             Toast.makeText(mcontext,getRealFilePath(mcontext,Uri.parse(pic)),Toast.LENGTH_SHORT).show();
 
             holder.jobPic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,6 +88,18 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
                             dialog.cancel();
                         }
                     });
+                }
+            });
+        }
+
+        //点击事件
+        if(mOnItemClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    Long locoId = locoCategory.get_id();
+                    mOnItemClickListener.onItemClick(holder.itemView, pos, locoId);
                 }
             });
         }
@@ -110,18 +145,84 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
             data = uri.getPath();
         } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
-            if ( null != cursor ) {
-                if ( cursor.moveToFirst() ) {
-                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
-                    if ( index > -1 ) {
-                        data = cursor.getString( index );
+            Cursor cursor = null;
+            String[] projection = {MediaStore.Images.Media.DATA};
+            try{
+                String authority = uri.getAuthority();
+                if(authority.equalsIgnoreCase("media")){
+                    // 系统媒体库选的的图片
+                    cursor = context.getContentResolver().query( uri, projection, null, null, null );
+                }else{
+                    //相机拍摄的图片，以FileProvider方式存储
+                   return getFPUriToPath(context,uri);
+                }
+
+                if ( null != cursor ) {
+                    if (cursor.moveToFirst()) {
+                        int index = cursor.getColumnIndexOrThrow(projection[0]);
+                        data = cursor.getString(index);
                     }
                 }
-                cursor.close();
+                }catch(Exception e){
+                if(cursor != null){
+                    cursor.close();
+                }
             }
         }
         return data;
+    }
+
+    /**
+     * 获取FileProvider path
+     */
+    private static String getFPUriToPath(Context context, Uri uri){
+        try{
+            List<PackageInfo> packs = context.getPackageManager().getInstalledPackages(PackageManager.GET_PROVIDERS);
+            if(packs != null){
+                String fileProviderClassName = FileProvider.class.getName();
+                for(PackageInfo pack : packs){
+                    ProviderInfo[] providers = pack.providers;
+                    if(providers != null){
+                        for(ProviderInfo provider : providers){
+                            if(uri.getAuthority().equals(provider.authority)) {
+                                if(provider.name.equalsIgnoreCase(fileProviderClassName)) {
+                                    Class<FileProvider> fileProviderClass = FileProvider.class;
+                                    try{
+                                        Method getPathStrategy = fileProviderClass.getDeclaredMethod("getPathStrategy", Context.class, String.class);
+                                        getPathStrategy.setAccessible(true);
+                                        Object invoke = getPathStrategy.invoke(null, context, uri.getAuthority());
+                                        if(invoke != null){
+                                            String PathStrategyStringClass = FileProvider.class.getName() + "$PathStrategy";
+                                            Class<?> PathStrategy = Class.forName(PathStrategyStringClass);
+                                            Method getFileForUri = PathStrategy.getDeclaredMethod("getFileForUri", Uri.class);
+                                            getFileForUri.setAccessible(true);
+                                            Object invoke1 = getFileForUri.invoke(invoke, uri);
+                                            if(invoke1 instanceof File){
+                                                String filePath = ((File) invoke1).getAbsolutePath();
+                                                return filePath;
+                                            }
+                                        }
+                                    }catch (NoSuchMethodException e){
+                                        e.printStackTrace();
+                                    }catch (InvocationTargetException e){
+                                        e.printStackTrace();
+                                    }catch (IllegalAccessException e){
+                                        e.printStackTrace();
+                                    }catch (ClassNotFoundException e){
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -156,6 +257,7 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         // 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
         return compressImage(bitmap);// 压缩好比例大小后再进行质量压缩
+//        return bitmap;
     }
 
     /**
