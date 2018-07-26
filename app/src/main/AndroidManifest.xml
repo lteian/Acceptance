@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:exported="true"
-            android:name=".MainActivity">
+            android:name=".locolist.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LocoInformationActivity"
+            android:name=".joblist.LocoInformationActivity"
             android:label="@string/title_jc_information"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".JobAddActivity"
+            android:name=".jobadd.JobAddActivity"
             android:label="@string/title_activity_add_job"
             android:theme="@style/AppTheme" />
         <meta-data android:name="IFLYTEK_APPKEY" android:value="5b4611c4"/>

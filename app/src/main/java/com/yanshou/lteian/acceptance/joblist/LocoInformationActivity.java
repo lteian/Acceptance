@@ -1,4 +1,4 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.joblist;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,7 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.yanshou.lteian.acceptance.jobadd.JobAddActivity;
+import com.yanshou.lteian.acceptance.R;
+import com.yanshou.lteian.acceptance.data.LocoAcceptance;
+import com.yanshou.lteian.acceptance.data.LocoAcceptanceDao;
+import com.yanshou.lteian.acceptance.data.LocoLoco;
+import com.yanshou.lteian.acceptance.data.LocoLocoDao;
 
 import java.util.ArrayList;
 import java.util.List;

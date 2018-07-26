@@ -1,8 +1,11 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.yanshou.lteian.acceptance.data.LocoAcceptance;
+import com.yanshou.lteian.acceptance.data.LocoLoco;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 

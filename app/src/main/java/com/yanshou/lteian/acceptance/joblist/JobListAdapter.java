@@ -1,4 +1,4 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.joblist;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -9,7 +9,6 @@ import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -19,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.yanshou.lteian.acceptance.R;
+import com.yanshou.lteian.acceptance.data.LocoAcceptance;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -1,8 +1,7 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.jobadd;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -25,6 +24,9 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.yanshou.lteian.acceptance.R;
+import com.yanshou.lteian.acceptance.data.LocoAcceptance;
+import com.yanshou.lteian.acceptance.data.LocoAcceptanceDao;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;

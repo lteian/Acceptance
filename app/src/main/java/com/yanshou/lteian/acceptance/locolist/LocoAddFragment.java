@@ -1,11 +1,10 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.locolist;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.yanshou.lteian.acceptance.joblist.LocoInformationActivity;
+import com.yanshou.lteian.acceptance.R;
+import com.yanshou.lteian.acceptance.data.LocoLoco;
+import com.yanshou.lteian.acceptance.data.LocoLocoDao;
 
 public class LocoAddFragment extends Fragment{
     private Button button;

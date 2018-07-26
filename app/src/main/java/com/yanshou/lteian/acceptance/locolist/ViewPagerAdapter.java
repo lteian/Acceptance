@@ -1,4 +1,4 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.locolist;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

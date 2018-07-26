@@ -1,4 +1,4 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.locolist;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.yanshou.lteian.acceptance.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.yanshou.lteian.acceptance;
+package com.yanshou.lteian.acceptance.locolist;
 
 import android.annotation.SuppressLint;
 import android.support.design.internal.BottomNavigationItemView;
