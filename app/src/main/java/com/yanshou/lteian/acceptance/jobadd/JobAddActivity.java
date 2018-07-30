@@ -6,9 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.File;
 import java.util.List;
 
 public class JobAddActivity extends AppCompatActivity {
@@ -51,6 +54,7 @@ public class JobAddActivity extends AppCompatActivity {
     private EditText editText;
     private String result = "";
     private String ImageUri="";
+    private Uri capterUri= Uri.parse("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,8 @@ public class JobAddActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.hj_description);
         JobImage = findViewById(R.id.job_image);
+        Button selectImageButton = findViewById(R.id.select_pic_button);
+        Button capterImageButton = findViewById(R.id.capter_pic_button);
 
         /**
          * 加入讯飞语音
@@ -136,23 +142,49 @@ public class JobAddActivity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * 使用相机拍照
+         */
+
+        capterImageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int permissionCheckCamera = ContextCompat.checkSelfPermission(JobAddActivity.this,Manifest.permission.CAMERA);
+                if(permissionCheckCamera == PackageManager.PERMISSION_GRANTED){
+                    // 这里的getExternalCacheDir() 与 xml中external-cache-path 相对应
+                    File imagePath = new File(getExternalCacheDir(), "Pictures");
+                    if (!imagePath.exists()){imagePath.mkdirs();}
+                    File newFile = new File(imagePath, "mycamera.jpg");
+                    //   com.yanshou.lteian.acceptance.fileprovider 为manifest重配置的 domain
+                    Uri contentUri = FileProvider.getUriForFile(JobAddActivity.this,"com.yanshou.lteian.acceptance.fileprovider", newFile);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                    startActivityForResult(intent, 100);
+                    capterUri = contentUri;
+                }else{
+                   if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
+
+                    }else{
+                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
+                    }
+                }
+
+            }
+        });
         /**
          * 图片选择器
          */
-        JobImage.setOnClickListener(new View.OnClickListener() {
+        selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //获取权限
                 int permissionCheckReadExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
-                int permissionCheckCamera = ContextCompat.checkSelfPermission(JobAddActivity.this,Manifest.permission.CAMERA);
-                int permissionCheckWriteExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if(permissionCheckReadExternalStorage == PackageManager.PERMISSION_GRANTED &&
-                        permissionCheckCamera == PackageManager.PERMISSION_GRANTED){
+                if(permissionCheckReadExternalStorage == PackageManager.PERMISSION_GRANTED){
                     Matisse.from(JobAddActivity.this)
                             .choose(MimeType.ofAll()) // 选择 mime 的类型
                             .countable(false) // 显示选择的数量
-                            .capture(true)  // 开启相机，和 captureStrategy 一并使用否则报错
-                            .captureStrategy(new CaptureStrategy(true,"com.yanshou.lteian.acceptance.fileprovider")) // 拍照的图片路径
                             .theme(R.style.Matisse_Dracula) // 黑色背景
                             .maxSelectable(1) // 图片选择的最多数量
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
@@ -165,11 +197,6 @@ public class JobAddActivity extends AppCompatActivity {
 
                     }else{
                         ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
-                    }
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
-
-                    }else{
-                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
                     }
                 }
             }
@@ -275,7 +302,8 @@ public class JobAddActivity extends AppCompatActivity {
 
         }else if(requestCode!=RESULT_OK&&requestCode!=RESULT_CANCELED){
             //设置失败提示
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            JobImage.setImageURI(capterUri);
+            Toast.makeText(this, "Set Capture up successfully", Toast.LENGTH_SHORT).show();
         }
     }
 }

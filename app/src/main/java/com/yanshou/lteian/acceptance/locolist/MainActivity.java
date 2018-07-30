@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.yanshou.lteian.acceptance.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        QMUIStatusBarHelper.translucent(MainActivity.this);
 
         SpeechUtility.createUtility(MainActivity.this, SpeechConstant.APPID +"=5b4611c4");
 
