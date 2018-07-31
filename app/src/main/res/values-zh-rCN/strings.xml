@@ -12,4 +12,5 @@
     <string name="title_activity_add_job">增加活件</string>
     <string name="modify">修改</string>
     <string name="title_jc_information">机车信息</string>
+    <string name="loco_type">车型</string>
 </resources>

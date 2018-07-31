@@ -1,12 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="me"
-        />
+        android:layout_height="wrap_content">
+        <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标题"/>
+        </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_50" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:columnCount="2"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_gravity="fill_horizontal"
+                android:background="@drawable/qmui_s_list_item_bg_with_border_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:text="实验"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:hint="ok" />
+        </GridLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_50" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:columnCount="2"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_gravity="fill_horizontal"
+                android:background="@drawable/qmui_s_list_item_bg_with_border_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:text="实验"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:hint="ok" />
+        </GridLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_50" />
+
+        <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标题"/>
+        </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_50" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:columnCount="2"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_gravity="fill_horizontal"
+                android:background="@drawable/qmui_s_list_item_bg_with_border_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:text="实验"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:hint="ok" />
+        </GridLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_50" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:columnCount="2"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_gravity="fill_horizontal"
+                android:background="@drawable/qmui_s_list_item_bg_with_border_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:text="实验"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                android:hint="ok" />
+        </GridLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_50" />
+
+    </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView>
 
 </android.support.constraint.ConstraintLayout>

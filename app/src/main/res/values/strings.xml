@@ -12,4 +12,5 @@
     <string name="modify">Modify</string>
     <string name="title_activity_add_job">AddJobActivity</string>
     <string name="type_of_locomotive">Type of Locomotive</string>
+    <string name="loco_type">Loco Type</string>
 </resources>
