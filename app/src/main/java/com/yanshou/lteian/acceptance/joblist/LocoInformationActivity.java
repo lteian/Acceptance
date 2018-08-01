@@ -12,8 +12,15 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogMenuItemView;
+import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.yanshou.lteian.acceptance.jobadd.JobAddActivity;
 import com.yanshou.lteian.acceptance.R;
 import com.yanshou.lteian.acceptance.data.LocoAcceptance;
@@ -22,12 +29,14 @@ import com.yanshou.lteian.acceptance.data.LocoLoco;
 import com.yanshou.lteian.acceptance.data.LocoLocoDao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LocoInformationActivity extends AppCompatActivity {
     private String locoInformation;
     LocoLoco loco = new LocoLoco();
     Long locoId = null;
+    private QMUIListPopup listPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +54,61 @@ public class LocoInformationActivity extends AppCompatActivity {
         setJobCardList();
 //        4.悬浮按钮添加活件动作
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         final Long _id = locoId;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LocoInformationActivity.this, JobAddActivity.class);
-                intent.putExtra("locoId",_id);
-                startActivity(intent);
+                initListPopIfNeed();
+                listPopup.setAnimStyle(QMUIListPopup.ANIM_GROW_FROM_CENTER);
+                listPopup.setPreferredDirection(QMUIListPopup.DIRECTION_TOP);
+                listPopup.show(view);
+
+                final String[] items = getResources().getStringArray(R.array.AcceptanceType);
+                QMUIDialog.MenuDialogBuilder menuDialogBuilder = new QMUIDialog.MenuDialogBuilder(view.getContext());
+                menuDialogBuilder.addItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(LocoInformationActivity.this, JobAddActivity.class);
+                        intent.putExtra("locoId",_id);
+                        intent.putExtra("jobType",items[which]);
+                        dialog.dismiss();
+                        startActivity(intent);
+                    }
+                }).show();
+
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
         });
     }
-//        设置toolbar
+
+    private void initListPopIfNeed() {
+        if(listPopup == null){
+            String[] items = getResources().getStringArray(R.array.AcceptanceType);
+            List<String> data = new ArrayList<>();
+
+            Collections.addAll(data, items);
+
+            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.simple_list_item, data);
+
+            listPopup = new QMUIListPopup(getContext(), QMUIListPopup.DIRECTION_NONE, adapter);
+            listPopup.create(QMUIDisplayHelper.dp2px(getContext(), 250), QMUIDisplayHelper.dp2px(getContext(), 200), new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listPopup.dismiss();
+                }
+            });
+            listPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    
+                }
+            });
+        }
+    }
+
+    //        设置toolbar
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(locoInformation);

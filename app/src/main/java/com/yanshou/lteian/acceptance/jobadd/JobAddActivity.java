@@ -1,6 +1,7 @@
 package com.yanshou.lteian.acceptance.jobadd;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.yanshou.lteian.acceptance.R;
 import com.yanshou.lteian.acceptance.data.LocoAcceptance;
 import com.yanshou.lteian.acceptance.data.LocoAcceptanceDao;
@@ -63,7 +65,6 @@ public class JobAddActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.hj_description);
         JobImage = findViewById(R.id.job_image);
-        Button selectImageButton = findViewById(R.id.select_pic_button);
         Button capterImageButton = findViewById(R.id.capter_pic_button);
 
         /**
@@ -115,6 +116,7 @@ public class JobAddActivity extends AppCompatActivity {
         //        1.接收参数
         Intent intent= getIntent();
         final Long locoId= intent.getLongExtra("locoId",0);
+        final String jobType = intent.getStringExtra("jobType");
 //        2.Button 写入数据
         Button addHjSubmit = findViewById(R.id.add_loco_submit);
         final Spinner spinner = findViewById(R.id.spinner_acceptance_type);
@@ -127,7 +129,7 @@ public class JobAddActivity extends AppCompatActivity {
 //                保存活件信息
                 LocoAcceptance acceptance = new LocoAcceptance();
                 LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(JobAddActivity.this);
-                acceptance.setAcceptanceType(spinner.getSelectedItem().toString().trim());
+                acceptance.setAcceptanceType(jobType);
                 acceptance.setAcceptanceDesc(editText.getText().toString().trim());
                 acceptance.setLocoId(locoId);
                 // 如果pic有图片，保存图片
@@ -151,57 +153,71 @@ public class JobAddActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                int permissionCheckCamera = ContextCompat.checkSelfPermission(JobAddActivity.this,Manifest.permission.CAMERA);
-                if(permissionCheckCamera == PackageManager.PERMISSION_GRANTED){
-                    // 这里的getExternalCacheDir() 与 xml中external-cache-path 相对应
-                    File imagePath = new File(getExternalCacheDir(), "Pictures");
-                    if (!imagePath.exists()){imagePath.mkdirs();}
-                    File newFile = new File(imagePath, "mycamera.jpg");
-                    //   com.yanshou.lteian.acceptance.fileprovider 为manifest重配置的 domain
-                    Uri contentUri = FileProvider.getUriForFile(JobAddActivity.this,"com.yanshou.lteian.acceptance.fileprovider", newFile);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-                    startActivityForResult(intent, 100);
-                    capterUri = contentUri;
-                }else{
-                   if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
-
-                    }else{
-                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
+                final String[] item = new String[]{"相机","图库"};
+                QMUIDialog.MenuDialogBuilder menuDialogBuilder = new QMUIDialog.MenuDialogBuilder(v.getContext());
+                menuDialogBuilder.addItems(item, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(item[which] == "相机"){
+                            captureJobImage();
+                        }else if(item[which] == "图库"){
+                            selectJobImage();
+                        }
+                        dialog.dismiss();
                     }
-                }
-
+                }).show();
             }
         });
-        /**
-         * 图片选择器
-         */
-        selectImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //获取权限
-                int permissionCheckReadExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
-                if(permissionCheckReadExternalStorage == PackageManager.PERMISSION_GRANTED){
-                    Matisse.from(JobAddActivity.this)
-                            .choose(MimeType.ofAll()) // 选择 mime 的类型
-                            .countable(false) // 显示选择的数量
-                            .theme(R.style.Matisse_Dracula) // 黑色背景
-                            .maxSelectable(1) // 图片选择的最多数量
-                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                            .thumbnailScale(0.85f) // 缩略图的比例
-                            .imageEngine(new GlideEngine()) // 使用的图片加载引擎
-                            .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码，返回图片时使用
+    }
 
-                }else{
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
+    /**
+     * 图库
+     */
+    private void selectJobImage() {
+        int permissionCheckReadExternalStorage = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if(permissionCheckReadExternalStorage == PackageManager.PERMISSION_GRANTED){
+            Matisse.from(JobAddActivity.this)
+                    .choose(MimeType.ofAll()) // 选择 mime 的类型
+                    .countable(false) // 显示选择的数量
+                    .theme(R.style.Matisse_Dracula) // 黑色背景
+                    .maxSelectable(1) // 图片选择的最多数量
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f) // 缩略图的比例
+                    .imageEngine(new GlideEngine()) // 使用的图片加载引擎
+                    .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码，返回图片时使用
 
-                    }else{
-                        ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
-                    }
-                }
+        }else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            }else{
+                ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
             }
-        });
+        }
+    }
 
+    /**
+     * 相机
+     */
+    private void captureJobImage() {
+        int permissionCheckCamera = ContextCompat.checkSelfPermission(JobAddActivity.this,Manifest.permission.CAMERA);
+        if(permissionCheckCamera == PackageManager.PERMISSION_GRANTED){
+            // 这里的getExternalCacheDir() 与 xml中external-cache-path 相对应
+            File imagePath = new File(getExternalCacheDir(), "Pictures");
+            if (!imagePath.exists()){imagePath.mkdirs();}
+            File newFile = new File(imagePath, "mycamera.jpg");
+            //   com.yanshou.lteian.acceptance.fileprovider 为manifest重配置的 domain
+            Uri contentUri = FileProvider.getUriForFile(JobAddActivity.this,"com.yanshou.lteian.acceptance.fileprovider", newFile);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+            startActivityForResult(intent, 100);
+            capterUri = contentUri;
+        }else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(JobAddActivity.this,Manifest.permission.CAMERA)) {
+
+            }else{
+                ActivityCompat.requestPermissions(JobAddActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_CAMERA);
+            }
+        }
     }
 
     /***
@@ -303,6 +319,7 @@ public class JobAddActivity extends AppCompatActivity {
         }else if(requestCode!=RESULT_OK&&requestCode!=RESULT_CANCELED){
             //设置失败提示
             JobImage.setImageURI(capterUri);
+            ImageUri = String.valueOf(capterUri);
             Toast.makeText(this, "Set Capture up successfully", Toast.LENGTH_SHORT).show();
         }
     }
