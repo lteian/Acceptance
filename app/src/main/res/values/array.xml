@@ -9,11 +9,19 @@
         <item>DF7</item>
     </string-array>
 
-    <string-array name="AcceptanceType">
+    <string-array name="JobType">
         <item>复检</item>
         <item>过程盯控</item>
         <item>零公里对规</item>
         <item>交验</item>
+    </string-array>
+
+    <string-array name="JobPosition">
+        <item>电器</item>
+        <item>机械</item>
+        <item>制动</item>
+        <item>附件</item>
+        <item>柴油机</item>
     </string-array>
 
 </resources>

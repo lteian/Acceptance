@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yanshou.lteian.acceptance.R;
-import com.yanshou.lteian.acceptance.data.LocoAcceptance;
+import com.yanshou.lteian.acceptance.data.LocoJob;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,11 +32,11 @@ import java.util.List;
 class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<LocoAcceptance> mDatas;
+    private List<LocoJob> mDatas;
 
     private LocoInformationActivity mcontext;
 
-    public JobListAdapter(LocoInformationActivity context, List<LocoAcceptance> datas){
+    public JobListAdapter(LocoInformationActivity context, List<LocoJob> datas){
         this.mcontext = context;
         mDatas = datas;
     }
@@ -64,10 +64,11 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final LocoAcceptance locoCategory = mDatas.get(position);
-        holder.jobTitle.setText(String.format("活件类型：%s", locoCategory.getAcceptanceType()));
-        holder.jobDiscript.setText(String.format("活件描述：%s", locoCategory.getAcceptanceDesc()));
-        final String pic = locoCategory.getAcceptancePic();
+        final LocoJob locoCategory = mDatas.get(position);
+        holder.jobTitle.setText(String.format("活件类型：%s", locoCategory.getJobType()));
+        holder.jobPosition.setText(String.format("活件部位：%s",locoCategory.getJobPosition()));
+        holder.jobDiscript.setText(String.format("活件描述：%s", locoCategory.getJobDesc()));
+        final String pic = locoCategory.getJobPic();
         if(pic.contains("content")){
             Bitmap bm = getimage(getRealFilePath(mcontext, Uri.parse(pic)));
             holder.jobPic.setImageBitmap(bm);
@@ -114,6 +115,7 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
 
     public static  class ViewHolder extends RecyclerView.ViewHolder{
         TextView jobTitle;
+        TextView jobPosition;
         TextView jobDiscript;
         ImageView jobPic;
 
@@ -121,6 +123,7 @@ class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
+            jobPosition = itemView.findViewById(R.id.job_card_position);
             jobTitle = (TextView) itemView.findViewById(R.id.job_card_title);
             jobPic = (ImageView) itemView.findViewById(R.id.job_card_pic);
             jobDiscript = (TextView) itemView.findViewById(R.id.job_card_more);

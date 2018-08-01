@@ -18,13 +18,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogMenuItemView;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.yanshou.lteian.acceptance.jobadd.JobAddActivity;
 import com.yanshou.lteian.acceptance.R;
-import com.yanshou.lteian.acceptance.data.LocoAcceptance;
-import com.yanshou.lteian.acceptance.data.LocoAcceptanceDao;
+import com.yanshou.lteian.acceptance.data.LocoJob;
+import com.yanshou.lteian.acceptance.data.LocoJobDao;
 import com.yanshou.lteian.acceptance.data.LocoLoco;
 import com.yanshou.lteian.acceptance.data.LocoLocoDao;
 
@@ -37,11 +35,15 @@ public class LocoInformationActivity extends AppCompatActivity {
     LocoLoco loco = new LocoLoco();
     Long locoId = null;
     private QMUIListPopup listPopup;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loco_information);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
         Intent intent = getIntent();
         locoId = intent.getLongExtra("locoId",0);
 
@@ -53,56 +55,47 @@ public class LocoInformationActivity extends AppCompatActivity {
         //设置参数
         setJobCardList();
 //        4.悬浮按钮添加活件动作
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        final Long _id = locoId;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fab.setRotation(-155);
                 initListPopIfNeed();
                 listPopup.setAnimStyle(QMUIListPopup.ANIM_GROW_FROM_CENTER);
                 listPopup.setPreferredDirection(QMUIListPopup.DIRECTION_TOP);
                 listPopup.show(view);
 
-                final String[] items = getResources().getStringArray(R.array.AcceptanceType);
-                QMUIDialog.MenuDialogBuilder menuDialogBuilder = new QMUIDialog.MenuDialogBuilder(view.getContext());
-                menuDialogBuilder.addItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(LocoInformationActivity.this, JobAddActivity.class);
-                        intent.putExtra("locoId",_id);
-                        intent.putExtra("jobType",items[which]);
-                        dialog.dismiss();
-                        startActivity(intent);
-                    }
-                }).show();
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
     }
 
     private void initListPopIfNeed() {
         if(listPopup == null){
-            String[] items = getResources().getStringArray(R.array.AcceptanceType);
+            final String[] items = getResources().getStringArray(R.array.JobType);
             List<String> data = new ArrayList<>();
 
             Collections.addAll(data, items);
 
-            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.simple_list_item, data);
+            ArrayAdapter adapter = new ArrayAdapter<>(this,R.layout.simple_list_item, data);
 
-            listPopup = new QMUIListPopup(getContext(), QMUIListPopup.DIRECTION_NONE, adapter);
-            listPopup.create(QMUIDisplayHelper.dp2px(getContext(), 250), QMUIDisplayHelper.dp2px(getContext(), 200), new AdapterView.OnItemClickListener() {
+            listPopup = new QMUIListPopup(this, QMUIListPopup.DIRECTION_NONE, adapter);
+            listPopup.create(QMUIDisplayHelper.dp2px(this, 150), QMUIDisplayHelper.dp2px(this, 250), new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listPopup.dismiss();
+                    final Long _id = locoId;
+                    Intent intent = new Intent(LocoInformationActivity.this, JobAddActivity.class);
+                        intent.putExtra("locoId",_id);
+                        intent.putExtra("jobType",items[position]);
+                        listPopup.dismiss();
+                        startActivity(intent);
+
+//                    Toast.makeText(LocoInformationActivity.this, "position is:" + items[position] + " The id is:" + _id, Toast.LENGTH_SHORT).show();
                 }
             });
             listPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    
+                    fab.setRotation(0);
                 }
             });
         }
@@ -153,9 +146,9 @@ public class LocoInformationActivity extends AppCompatActivity {
     }
 
     //      获取活件列表
-    private List<LocoAcceptance> findJob(Long locoId) {
-        LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(LocoInformationActivity.this);
-        List<LocoAcceptance> acceptanceList = new ArrayList<LocoAcceptance>();
+    private List<LocoJob> findJob(Long locoId) {
+        LocoJobDao acceptanceDao = new LocoJobDao(LocoInformationActivity.this);
+        List<LocoJob> acceptanceList = new ArrayList<LocoJob>();
 
         acceptanceList = acceptanceDao.findJobList(locoId);
 

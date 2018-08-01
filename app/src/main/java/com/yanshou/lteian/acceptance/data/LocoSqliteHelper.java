@@ -4,14 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yanshou.lteian.acceptance.data.LocoAcceptance;
-import com.yanshou.lteian.acceptance.data.LocoLoco;
-
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 public class LocoSqliteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "loco_ys.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public LocoSqliteHelper(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -19,7 +16,7 @@ public class LocoSqliteHelper extends SQLiteOpenHelper {
 
     static {
         cupboard().register(LocoLoco.class);
-        cupboard().register(LocoAcceptance.class);
+        cupboard().register(LocoJob.class);
     }
 
     @Override

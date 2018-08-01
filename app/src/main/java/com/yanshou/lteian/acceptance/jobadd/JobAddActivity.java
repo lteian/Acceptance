@@ -1,10 +1,12 @@
 package com.yanshou.lteian.acceptance.jobadd;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,10 +15,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,13 +36,14 @@ import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
+import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.yanshou.lteian.acceptance.R;
-import com.yanshou.lteian.acceptance.data.LocoAcceptance;
-import com.yanshou.lteian.acceptance.data.LocoAcceptanceDao;
+import com.yanshou.lteian.acceptance.data.LocoJob;
+import com.yanshou.lteian.acceptance.data.LocoJobDao;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,6 +51,8 @@ import org.json.JSONTokener;
 
 import java.io.File;
 import java.util.List;
+
+import customlibray.DrawableEditText;
 
 public class JobAddActivity extends AppCompatActivity {
 
@@ -51,55 +62,71 @@ public class JobAddActivity extends AppCompatActivity {
     private RecognizerDialogListener mRListener;
     private final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1, MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2, MY_PERMISSIONS_CAMERA = 3;
     private final int REQUEST_CODE_CHOOSE=0;
-    private ImageButton JobImage;
-
-    private EditText editText;
+    private ImageButton jobImage;
     private String result = "";
     private String ImageUri="";
     private Uri capterUri= Uri.parse("");
+    private QMUICommonListItemView jobPositionItemView;
+    private QMUICommonListItemView jobDiscriptionItemView;
+    private EditText jobDiscriptionEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_add);
 
-        editText = findViewById(R.id.hj_description);
-        JobImage = findViewById(R.id.job_image);
-        Button capterImageButton = findViewById(R.id.capter_pic_button);
+        jobPositionItemView = findViewById(R.id.job_position);
+        jobDiscriptionItemView = findViewById(R.id.job_discription);
+        jobDiscriptionEditText = new EditText(this);
+        jobImage = findViewById(R.id.capter_pic_button);
+
 
         /**
-         * 加入讯飞语音
+         * 活件部位
          */
-// 将“12345678”替换成您申请的APPID，申请地址：http://www.xfyun.cn
-// 请勿在“=”与appid之间添加任何空字符或者转义符
-        SpeechUtility.createUtility(this, SpeechConstant.APPID +"="+APPID);
-//        Button 点击 ，语音听写
-        mRListener = new RecognizerDialogListener() {
-            @Override
-            public void onResult(RecognizerResult results, boolean isLast) {
-                String text = parseIatResult(results.getResultString());
-                result += text;
-                editText.setText(result);
-                if (isLast) {
-
-                    result = "";
-                }
-            }
-
-            @Override
-            public void onError(SpeechError speechError) {
-
-            }
-        };
-        mIatDialog = new RecognizerDialog(this, null);
-        mIatDialog.setListener(mRListener);
-
-        ImageButton iflytekButton = findViewById(R.id.iflytek_listen);
-
-        iflytekButton.setOnClickListener(new View.OnClickListener() {
+        jobPositionItemView.setText("活件部位");
+        jobPositionItemView.setDetailText("请选择");
+        jobPositionItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int permissionCheck = ContextCompat.checkSelfPermission(JobAddActivity.this, Manifest.permission.RECORD_AUDIO);
+                final String[] items = getResources().getStringArray(R.array.JobPosition);
+                QMUIDialog.CheckableDialogBuilder locoCheckableDialog = new QMUIDialog.CheckableDialogBuilder(v.getContext());
+                locoCheckableDialog.setCheckedIndex(1).addItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        jobPositionItemView.setDetailText(items[which]);
+                        dialog.dismiss();
+                    }
+                }).create().show();
+            }
+        });
+
+        /**
+         * 活件描述
+         */
+        jobDiscriptionItemView.setText("活件描述");
+        jobDiscriptionItemView.setImageDrawable(getDrawable(R.drawable.iflytek_voice));
+        jobDiscriptionEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        jobDiscriptionEditText.setGravity(Gravity.FILL);
+        jobDiscriptionEditText.setBackground(getResources().getDrawable(R.drawable.qmui_divider_bottom_bitmap));
+        jobDiscriptionEditText.setFocusable(true);
+        jobDiscriptionEditText.setBackgroundColor(getResources().getColor(R.color.gray_50));
+        jobDiscriptionEditText.setTextSize(16);
+        jobDiscriptionEditText.setWidth(500);
+        jobDiscriptionEditText.setCompoundDrawables(null,null,getDrawable(R.drawable.iflytek_voice),null);
+        jobDiscriptionItemView.addAccessoryCustomView(jobDiscriptionEditText);
+        jobDiscriptionEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (jobDiscriptionEditText.hasFocus()) {
+                    jobDiscriptionEditText.setText("");
+                }
+            }
+        });
+        jobDiscriptionItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int permissionCheck = ContextCompat.checkSelfPermission(v.getContext(), Manifest.permission.RECORD_AUDIO);
                 if(permissionCheck == PackageManager.PERMISSION_GRANTED){
                     setIatParam("zph");
                     mIatDialog.show();
@@ -113,28 +140,68 @@ public class JobAddActivity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * 加入讯飞语音
+         */
+// 将“12345678”替换成您申请的APPID，申请地址：http://www.xfyun.cn
+// 请勿在“=”与appid之间添加任何空字符或者转义符
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"="+APPID);
+//        Button 点击 ，语音听写
+        mRListener = new RecognizerDialogListener() {
+            @Override
+            public void onResult(RecognizerResult results, boolean isLast) {
+                String text = parseIatResult(results.getResultString());
+                result += text;
+                jobDiscriptionEditText.setText(result);
+                if (isLast) {
+
+                    result = "";
+                }
+            }
+
+            @Override
+            public void onError(SpeechError speechError) {
+
+            }
+        };
+        mIatDialog = new RecognizerDialog(this, null);
+        mIatDialog.setListener(mRListener);
+        /**
+         * 取消按钮
+         */
+        QMUIRoundButton cancelButton = findViewById(R.id.cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
         //        1.接收参数
         Intent intent= getIntent();
         final Long locoId= intent.getLongExtra("locoId",0);
         final String jobType = intent.getStringExtra("jobType");
-//        2.Button 写入数据
-        Button addHjSubmit = findViewById(R.id.add_loco_submit);
-        final Spinner spinner = findViewById(R.id.spinner_acceptance_type);
+        /**
+         * SubmitButton 写入数据
+         */
 
-//      Button 监听事件
+        Button addHjSubmit = findViewById(R.id.add_loco_submit);
         addHjSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 //                保存活件信息
-                LocoAcceptance acceptance = new LocoAcceptance();
-                LocoAcceptanceDao acceptanceDao = new LocoAcceptanceDao(JobAddActivity.this);
-                acceptance.setAcceptanceType(jobType);
-                acceptance.setAcceptanceDesc(editText.getText().toString().trim());
+                LocoJob acceptance = new LocoJob();
+                LocoJobDao acceptanceDao = new LocoJobDao(JobAddActivity.this);
+                acceptance.setJobType(jobType);
+                acceptance.setJobPosition(jobPositionItemView.getDetailText().toString());
+                acceptance.setJobDesc(jobDiscriptionEditText.getText().toString().trim());
                 acceptance.setLocoId(locoId);
                 // 如果pic有图片，保存图片
                 if(ImageUri != ""){
-                    acceptance.setAcceptancePic(ImageUri);
+                    acceptance.setJobPic(ImageUri);
                 }
                 Long acceptanceId = acceptanceDao.add(acceptance);
 
@@ -149,7 +216,7 @@ public class JobAddActivity extends AppCompatActivity {
          * 使用相机拍照
          */
 
-        capterImageButton.setOnClickListener(new View.OnClickListener() {
+        jobImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -311,14 +378,15 @@ public class JobAddActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data);
             //用setImageURI将Uri数组第一个Uri显示在ImageView上
-            JobImage.setImageURI(mSelected.get(0));
+            jobImage.setImageURI(mSelected.get(0));
+
             //将Uri转换为String保存在SharedPreferences中
             ImageUri = String.valueOf(mSelected.get(0));
             Toast.makeText(this, "Set up successfully", Toast.LENGTH_SHORT).show();
 
         }else if(requestCode!=RESULT_OK&&requestCode!=RESULT_CANCELED){
             //设置失败提示
-            JobImage.setImageURI(capterUri);
+            jobImage.setImageURI(capterUri);
             ImageUri = String.valueOf(capterUri);
             Toast.makeText(this, "Set Capture up successfully", Toast.LENGTH_SHORT).show();
         }

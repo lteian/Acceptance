@@ -10,26 +10,26 @@ import nl.qbusict.cupboard.QueryResultIterable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
-public class LocoAcceptanceDao {
+public class LocoJobDao {
     private LocoSqliteHelper helper;
-    public LocoAcceptanceDao(Context context){
+    public LocoJobDao(Context context){
         helper = new LocoSqliteHelper(context);
     }
 
-    public long add(LocoAcceptance acceptance){
+    public long add(LocoJob acceptance){
         SQLiteDatabase db = helper.getWritableDatabase();
         return cupboard().withDatabase(db).put(acceptance);
     }
 
-    public List<LocoAcceptance> findJobList(Long locoId){
+    public List<LocoJob> findJobList(Long locoId){
 
 //        查找id等于该机车的活件
 
-        List<LocoAcceptance> list = new ArrayList<>();
+        List<LocoJob> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
         if(locoId != null){
-            QueryResultIterable<LocoAcceptance> iter = cupboard().withDatabase(db).query(LocoAcceptance.class).withSelection("locoId = ?", String.valueOf(locoId)).query();
-            for (LocoAcceptance acceptance : iter){
+            QueryResultIterable<LocoJob> iter = cupboard().withDatabase(db).query(LocoJob.class).withSelection("locoId = ?", String.valueOf(locoId)).query();
+            for (LocoJob acceptance : iter){
                 list.add(acceptance);
             }
             iter.close();
