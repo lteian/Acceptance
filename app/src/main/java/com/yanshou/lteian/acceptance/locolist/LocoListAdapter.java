@@ -54,7 +54,7 @@ class LocoListAdapter extends RecyclerView.Adapter<LocoListAdapter.ViewHolder> {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         holder.locoDateTextView.setText(String.format("交验时间：%s", sdf.format(locoCategory.getLocoDate())));
 
-        if(mOnItemClickListener != null){
+        if(null != mOnItemClickListener){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

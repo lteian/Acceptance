@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_50"/>
+
+    <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/job_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/qmui_list_item_height"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+    </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView>
+
+    <com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/job_card_position"
+            android:layout_width="@dimen/qmui_list_item_height"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/job_card_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/qmui_list_item_height"
+            android:text="更多"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/job_card_position"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/job_card_pic"
+
+            android:id="@+id/job_card_more"
+            />
+
+    </com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView>
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/job_card_pic"
+            android:scaleType="centerCrop"
+            />
+
+</com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView>

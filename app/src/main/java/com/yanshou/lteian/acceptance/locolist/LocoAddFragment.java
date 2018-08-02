@@ -106,6 +106,12 @@ public class LocoAddFragment extends Fragment{
                 //1.提取机车型号
                 loco.setLocoType(String.valueOf(locoTypeListView.getDetailText()));
                 //        2.提取车号
+                int length = locoNoEditText.getText().length();
+                String locoNumber = String.valueOf(locoNoEditText.getText());
+                for(int i = length; i<4; i++) {
+                    locoNumber = "0" + locoNumber;
+                }
+                locoNoEditText.setText(locoNumber);
                 loco.setLocoNumber(String.valueOf(locoNoEditText.getText()));
 //                          3.提取修程
 

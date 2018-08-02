@@ -12,6 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/job_addtype_title"
             android:text="请填写活件信息"/>
     </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView>
     <LinearLayout
