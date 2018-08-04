@@ -12,15 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yanshou.lteian.acceptance.joblist.LocoInformationActivity;
 import com.yanshou.lteian.acceptance.R;
 import com.yanshou.lteian.acceptance.data.LocoLoco;
 import com.yanshou.lteian.acceptance.data.LocoLocoDao;
+import com.yanshou.lteian.acceptance.joblist.LocoInformationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocoListFragment extends Fragment{
+public class LocoListQMUIFragment extends Fragment{
     private RecyclerView recyclerCategory;
     List<LocoLoco> list = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class LocoListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") View view=inflater.inflate(R.layout.fragment_loco_list,null);
+        @SuppressLint("InflateParams") View view=inflater.inflate(R.layout.fragment_loco_list_qmui,null);
 
         getSellList(view);
 
@@ -56,11 +56,11 @@ public class LocoListFragment extends Fragment{
 
         recyclerCategory = view.findViewById(R.id.loco_list_recycler);
 
-        LocoQmuiAdapter mAdatper = new LocoQmuiAdapter(list);
+        LocoListAdapter mAdatper = new LocoListAdapter(list);
 
         recyclerCategory.setAdapter(mAdatper);
 
-        mAdatper.setOnItemClickListener(new LocoQmuiAdapter.OnItemClickListener() {
+        mAdatper.setOnItemClickListener(new LocoListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Long locoId) {
                 Intent intent = new Intent(getActivity(),LocoInformationActivity.class);
@@ -73,10 +73,9 @@ public class LocoListFragment extends Fragment{
 
             }
         });
-
 //        recyclerCategory.addItemDecoration(new DividerItemDecoration());
 
-        recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
 
     }
 }
