@@ -11,7 +11,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 import com.yanshou.lteian.acceptance.R;
 import com.yanshou.lteian.acceptance.data.LocoLoco;
 import com.yanshou.lteian.acceptance.data.LocoLocoDao;
@@ -53,29 +55,9 @@ public class LocoListQMUIFragment extends Fragment{
             e.printStackTrace();
         }
 
+        LocoQmuiAdapter adapter = new LocoQmuiAdapter(getContext(),list);
+        QMUIGroupListView listView = view.findViewById(R.id.loco_list_view);
 
-        recyclerCategory = view.findViewById(R.id.loco_list_recycler);
-
-        LocoListAdapter mAdatper = new LocoListAdapter(list);
-
-        recyclerCategory.setAdapter(mAdatper);
-
-        mAdatper.setOnItemClickListener(new LocoListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position, Long locoId) {
-                Intent intent = new Intent(getActivity(),LocoInformationActivity.class);
-                intent.putExtra("locoId",locoId);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        });
-//        recyclerCategory.addItemDecoration(new DividerItemDecoration());
-
-        recyclerCategory.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
 
     }
 }

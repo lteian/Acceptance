@@ -56,11 +56,11 @@ public class LocoListFragment extends Fragment{
 
         recyclerCategory = view.findViewById(R.id.loco_list_recycler);
 
-        LocoQmuiAdapter mAdatper = new LocoQmuiAdapter(list);
+        LocoListAdapter mAdatper = new LocoListAdapter(list);
 
         recyclerCategory.setAdapter(mAdatper);
 
-        mAdatper.setOnItemClickListener(new LocoQmuiAdapter.OnItemClickListener() {
+        mAdatper.setOnItemClickListener(new LocoListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Long locoId) {
                 Intent intent = new Intent(getActivity(),LocoInformationActivity.class);

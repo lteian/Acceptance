@@ -2,93 +2,55 @@ package com.yanshou.lteian.acceptance.locolist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.BaseAdapter;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.yanshou.lteian.acceptance.R;
-import com.yanshou.lteian.acceptance.data.LocoJob;
-import com.yanshou.lteian.acceptance.data.LocoJobDao;
 import com.yanshou.lteian.acceptance.data.LocoLoco;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-class LocoQmuiAdapter extends RecyclerView.Adapter<LocoQmuiAdapter.ViewHolder> {
-
-    private LayoutInflater mInflater;
-    private List<LocoLoco> mDatas;
-
-    private Context context;
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position, Long locoId);
-        void onItemLongClick(View view, int position);
-
+class LocoQmuiAdapter extends BaseAdapter {
+    private List<LocoLoco> mData;
+    private Context mContext;
+    public LocoQmuiAdapter(Context mContext, List<LocoLoco> mList){
+        super();
+        this.mData = mList;
+        this.mContext = mContext;
     }
 
-    private OnItemClickListener mOnItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener){
-        this.mOnItemClickListener = mOnItemClickListener;
-    }
-
-    LocoQmuiAdapter(List<LocoLoco> datas){
-     mDatas = datas;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int type) {
-        mInflater = LayoutInflater.from(viewGroup.getContext());
-        return  new ViewHolder(mInflater.inflate(R.layout.qmui_loco_list,viewGroup,false));
+    public void setData(List<LocoLoco> mData){
+        this.mData = mData;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final LocoLoco locoCategory = mDatas.get(position);
-        LocoJobDao jobDao = new LocoJobDao(context);
-        String jobCount = jobDao.countJob(locoCategory.get_id());
-        holder.locoIdCardView.setText(locoCategory.getLocoType()+" "+locoCategory.getLocoNumber() +" "+locoCategory.getLocoClassification());
-        holder.locoIdCardView.setDetailText(jobCount);
-//        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        holder.locoDateTextView.setText(String.format("交验时间：%s", sdf.format(locoCategory.getLocoDate())));
-
-        if(null != mOnItemClickListener){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = holder.getLayoutPosition();
-                    Long locoId = locoCategory.get_id();
-                    mOnItemClickListener.onItemClick(holder.itemView, pos, locoId);
-                }
-            });
-        }
+    public int getCount() {
+        return mData.size();
     }
 
     @Override
-    public int getItemCount() {
-        return mDatas.size();
+    public Object getItem(int position) {
+        return mData.get(position);
     }
 
-
-    static  class ViewHolder extends RecyclerView.ViewHolder{
-
-        QMUICommonListItemView locoIdCardView;
-
-
-        ViewHolder(View itemView) {
-            super(itemView);
-
-            locoIdCardView = itemView.findViewById(R.id.loco_id_cardview);
-        }
-
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
-
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View view = inflater.inflate(R.layout.qmui_loco_list,null);
+        QMUICommonListItemView listItemView = view.findViewById(R.id.loco_id_cardview);
+        LocoLoco locoCategory = mData.get(position);
+        listItemView.setText(locoCategory.getLocoType()+" "+ locoCategory.getLocoNumber()+" "+locoCategory.getLocoClassification());
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        listItemView.setDetailText(sdf.format(locoCategory.getLocoDate()));
+        return listItemView;
+    }
 }
