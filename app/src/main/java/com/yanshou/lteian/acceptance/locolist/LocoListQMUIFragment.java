@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocoListQMUIFragment extends Fragment{
-    private RecyclerView recyclerCategory;
     List<LocoLoco> list = new ArrayList<>();
 
 
@@ -56,7 +55,21 @@ public class LocoListQMUIFragment extends Fragment{
         }
 
         LocoQmuiAdapter adapter = new LocoQmuiAdapter(getContext(),list);
-        QMUIGroupListView listView = view.findViewById(R.id.loco_list_view);
+        ListView listView = view.findViewById(R.id.loco_list_view);
+        listView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new LocoQmuiAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, Long locoId) {
+                Intent intent = new Intent(getActivity(),LocoInformationActivity.class);
+                intent.putExtra("locoId",locoId);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        });
 
 
     }

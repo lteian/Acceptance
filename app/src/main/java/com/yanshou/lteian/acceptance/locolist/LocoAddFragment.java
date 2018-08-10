@@ -116,9 +116,11 @@ public class LocoAddFragment extends Fragment{
 //                          3.提取修程
 
                 loco.setLocoClassification(String.valueOf(locoCF.getText()));
+                loco.set_id(null);
 //                4.保存机车数据
                 //               保存机车信息
-                Long locoId = locoSave(loco);
+                LocoLocoDao dao = new LocoLocoDao(getContext());
+                Long locoId = dao.locoSave(loco);
 //                5.传参
                 Intent intent = new Intent(getActivity(), LocoInformationActivity.class);
                 intent.putExtra("locoId",locoId);
@@ -132,25 +134,6 @@ public class LocoAddFragment extends Fragment{
     }
 
 
-    /**
-     * 保存机车信息
-     * @param loco
-     * @return Long 机车id
-     */
-    private Long locoSave(LocoLoco loco) {
-//                保存机车信息，有个if，判断机车是否存在
-        LocoLocoDao locoDao = new LocoLocoDao(getActivity());
-        loco.setLocoDate(System.currentTimeMillis());
-        Long locoId = locoDao.findid(loco);
-        if(locoId == null){
-            locoId = locoDao.add(loco);
-            Toast.makeText(getActivity(),"机车信息添加成功，编号："+locoId,Toast.LENGTH_SHORT).show();
 
-        }else {
-
-            Toast.makeText(getActivity(), "找到以下机车信息，编号：" + locoId, Toast.LENGTH_SHORT).show();
-        }
-        return locoId;
-    }
 
 }

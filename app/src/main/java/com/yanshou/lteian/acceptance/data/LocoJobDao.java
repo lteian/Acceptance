@@ -28,7 +28,7 @@ public class LocoJobDao {
 
         List<LocoJob> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
-        if(locoId != null){
+        if(locoId != 0){
             QueryResultIterable<LocoJob> iter = cupboard().withDatabase(db).query(LocoJob.class).withSelection("locoId = ?", String.valueOf(locoId)).query();
             for (LocoJob acceptance : iter){
                 list.add(acceptance);
@@ -38,18 +38,15 @@ public class LocoJobDao {
         return list;
     }
 
-    public String countJob(Long locoId){
+    public int countJob(Long locoId){
         //        查找id等于该机车的活件
 
-        String count = "";
-        SQLiteDatabase db = helper.getReadableDatabase();
-        if(locoId != null){
-            SQLiteDatabase database = helper.getReadableDatabase();
-            String sql = "select count from LocoJob where(locoId = ?)";
-            Cursor cursor = database.rawQuery(sql,new String[]{String.valueOf(locoId)});
-            count = cursor.getString(0);
+        int jobCount = 0;
+        if((locoId != 0)){
+            List<LocoJob> list = findJobList(locoId);
+            jobCount = list.size();
         }
-        return count;
+        return jobCount;
     }
 
 }

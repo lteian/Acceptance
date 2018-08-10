@@ -2,14 +2,33 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/loco_list_group">
-
+    android:id="@+id/loco_list_group"
+    android:orientation="vertical">
     <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loco_list_view"
-        >
-
-
+        android:layout_height="wrap_content">
+        <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/qmui_list_item_height">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/qmui_config_color_black"
+                android:text="交验机车"/>
+        </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/loco_list_view"
+                />
+        <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/qmui_list_item_height">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*点击查看详细信息"
+                android:textColor="@color/colorPrimary"/>
+        </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListSectionHeaderFooterView>
     </com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView>
 </LinearLayout>
