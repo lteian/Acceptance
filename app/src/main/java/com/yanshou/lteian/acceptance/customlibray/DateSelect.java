@@ -12,7 +12,7 @@ public class DateSelect {
     /**
      * 获取今日0时0分的时间戳
      * @return Long
-     * @authur lteian
+     * @author lteian
      */
     private Long findToday (){
         Date now = new Date();
@@ -29,7 +29,7 @@ public class DateSelect {
     /**
      * 获取昨日0时0分时间戳
      * @return Long
-     * @authur lteian
+     * @author lteian
      */
     private Long findYesterday(){
         return findToday()-24*60*60*1000;
@@ -39,7 +39,7 @@ public class DateSelect {
         Date now = new Date();
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(now);
-        cal.set(Calendar.);
+        cal.set(Calendar.DAY_OF_MONTH,0);
         cal.set(Calendar.HOUR_OF_DAY,0);
         cal.set(Calendar.MINUTE,0);
         cal.set(Calendar.SECOND,0);
@@ -52,10 +52,10 @@ public class DateSelect {
      * 获取startTime
      * @param dateSelect
      * @return Long
-     * @authur lteian
+     * @author lteian
      */
     public Long findStartDate (int dateSelect){
-        Long startTime;
+        Long startTime = null;
         switch (dateSelect){
             case DATE_TODAY:
                 startTime = findToday();
@@ -64,14 +64,20 @@ public class DateSelect {
                 startTime = findToday()-24*60*60*1000;
                 break;
             case DATE_LAST_MONTH:
-                startTime =
+                startTime =findLastMonthStart();
+                break;
+            case DATE_LONG_TIME_AGO:
+                default:
+                startTime = findLastMonthStart();
+                break;
         }
+        return startTime;
     }
     /**
      * 获取结束时间段
      * @param dateSelect
      * @return Long endTime
-     * @authur lteian
+     * @author lteian
      */
     public Long findEndDate (int dateSelect){
         Long endTime;
@@ -83,9 +89,11 @@ public class DateSelect {
                 endTime = findToday() - 24*60*60*1000;
                 break;
             case DATE_LAST_MONTH:
-                endTime =
+                endTime = findToday();
                 break;
             case DATE_LONG_TIME_AGO:
+                default:
+                endTime = findLastMonthStart();
                 break;
         }
         return endTime;

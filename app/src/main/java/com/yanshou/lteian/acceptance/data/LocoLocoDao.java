@@ -2,10 +2,8 @@ package com.yanshou.lteian.acceptance.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import nl.qbusict.cupboard.QueryResultIterable;
@@ -20,9 +18,9 @@ public class LocoLocoDao {
 
     /**
      * 添加机车信息到数据库
-     * 输入:LocoLoco
-     * 输出:id
-     * 制作:lteian
+     * @param loco
+     * @return Long
+     * @author lteian
      */
 
     public Long add(LocoLoco loco){
@@ -34,7 +32,7 @@ public class LocoLocoDao {
      * 根据机车车id，查找机车信息
      * @param id
      * @return Locoloco
-     * @authur lteian
+     * @author lteian
      */
 
     public LocoLoco find(Long id){
@@ -47,6 +45,7 @@ public class LocoLocoDao {
      * 根据机车车型、车号、修程及日期中的年，查找机车信息，返回机车id
      * @param locoLoco
      * @return Long id
+     * @author lteian
      */
     public Long findid(LocoLoco locoLoco){
         SQLiteDatabase db = helper.getReadableDatabase();
